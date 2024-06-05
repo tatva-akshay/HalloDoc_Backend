@@ -84,6 +84,8 @@ public class PatientController : ControllerBase
     {
         try
         {
+            //check token valid for only 24 hours, doubt! but if he do not create at that time then request?
+            //just simply resetting/Creating the password
             await _patientService.CreateAccountPatient(loginDetails);
             _response.HttpStatusCode = HttpStatusCode.OK;
             _response.IsSuccess = true;
@@ -193,21 +195,21 @@ public class PatientController : ControllerBase
                 }
 
                 // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "")
-                string Body = "";
-                string Subject = "";
+                string createLink = "";
+                string Body = $"{createLink}";
+                string Subject = "Create Account";
                 if (!isExists)
                 {
                     Body = $"You can Create Your Account By .Your Request Has been Successfully Created! by {requestData.YFirstName} ";
                     Subject = "Create Account";
+                    await _communicationService.GenericSendEmail(requestData.Email, Body, Subject, 3, 0, 1, "");
                 }
                 else
                 {
                     Body = $"Your Request Has been Successfully Created! by {requestData.YFirstName} ";
                     Subject = "New Request";
-                }
-
-                await _communicationService.GenericSendEmail(requestData.Email, Body, Subject, 3, requestId, 0, "");
-
+                    await _communicationService.GenericSendEmail(requestData.Email, Body, Subject, 3, requestId, 0, "");
+                }       
                 return Ok(_response);
             }
             else

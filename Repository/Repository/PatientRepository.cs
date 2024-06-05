@@ -64,4 +64,10 @@ public class PatientRepository : IPatientRepository
         return physician;
     }
 
+    public async Task<PasswordReset> GetPasswordResetByEmail(string userEmail)
+    {
+        PasswordReset oldPasswordReset = await _context.PasswordResets.FirstOrDefaultAsync(m => m.Email == userEmail);
+        return oldPasswordReset;
+    }
+
 }

@@ -265,6 +265,18 @@ public class PatientService : IPatientService
 
                 await _tableRepository.AddAspNetUserRole(newAspNetUserRole);
                 await _tableRepository.SaveChanges();
+
+                string Token = Guid.NewGuid().ToString();
+                PasswordReset newResetPassword = new()
+                {
+                    Token = Token,
+                    CreatedDate = DateTime.Now,
+                    Email = requestData.Email,
+                    IsUpdated = false
+                };
+
+                await _tableRepository.AddPasswordReset(newResetPassword);
+                await _tableRepository.SaveChanges();
             }
 
             User oldUser = await _patientRepository.GetUserByEmail(requestData.Email);
@@ -378,6 +390,10 @@ public class PatientService : IPatientService
             AspNetUser oldAspNetUser = await _patientRepository.GetAspNetUserByEmail(loginDetails.Email);
             oldAspNetUser.PasswordHash = BCrypt.Net.BCrypt.HashPassword(loginDetails.Password);
             oldAspNetUser.ModifiedDate = DateTime.Now;
+
+            //btw no need to do this if not checking 24 hours validation
+            PasswordReset passwordReset = await _patientRepository.GetPasswordResetByEmail(loginDetails.Email);
+            passwordReset.IsUpdated = true;
 
             await _tableRepository.SaveChanges();
         }

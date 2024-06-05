@@ -13,4 +13,5 @@ public interface IPatientRepository
     Task<AspNetUser> GetAspNetUserByEmail(string userEmail);
     Task<Admin> GetAdminByEmail(string emailId);
     Task<Physician> GetPhysicianByEmail(string emailId);
+    Task<PasswordReset> GetPasswordResetByEmail(string userEmail);
 }
