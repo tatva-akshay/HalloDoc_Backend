@@ -1,0 +1,17 @@
+d:\Project\Angular\HalloDoc\Backend\Services\bin\Debug\net8.0\Services.deps.json
+d:\Project\Angular\HalloDoc\Backend\Services\bin\Debug\net8.0\Services.dll
+d:\Project\Angular\HalloDoc\Backend\Services\bin\Debug\net8.0\Services.pdb
+d:\Project\Angular\HalloDoc\Backend\Services\bin\Debug\net8.0\Repository.dll
+d:\Project\Angular\HalloDoc\Backend\Services\bin\Debug\net8.0\Repository.pdb
+d:\Project\Angular\HalloDoc\Backend\Services\obj\Debug\net8.0\Services.csproj.AssemblyReference.cache
+d:\Project\Angular\HalloDoc\Backend\Services\obj\Debug\net8.0\Services.GeneratedMSBuildEditorConfig.editorconfig
+d:\Project\Angular\HalloDoc\Backend\Services\obj\Debug\net8.0\Services.AssemblyInfoInputs.cache
+d:\Project\Angular\HalloDoc\Backend\Services\obj\Debug\net8.0\Services.AssemblyInfo.cs
+d:\Project\Angular\HalloDoc\Backend\Services\obj\Debug\net8.0\Services.csproj.CoreCompileInputs.cache
+d:\Project\Angular\HalloDoc\Backend\Services\obj\Debug\net8.0\Services.csproj.Up2Date
+d:\Project\Angular\HalloDoc\Backend\Services\obj\Debug\net8.0\Services.dll
+d:\Project\Angular\HalloDoc\Backend\Services\obj\Debug\net8.0\refint\Services.dll
+d:\Project\Angular\HalloDoc\Backend\Services\obj\Debug\net8.0\Services.pdb
+d:\Project\Angular\HalloDoc\Backend\Services\obj\Debug\net8.0\ref\Services.dll
+d:\Project\Angular\HalloDoc\Backend\Services\bin\Debug\net8.0\Entity.dll
+d:\Project\Angular\HalloDoc\Backend\Services\bin\Debug\net8.0\Entity.pdb

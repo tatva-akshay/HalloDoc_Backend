@@ -1,0 +1,17 @@
+D:\Project\Angular\HalloDoc\Backend\Repository\bin\Debug\net8.0\Repository.deps.json
+d:\Project\Angular\HalloDoc\Backend\Repository\bin\Debug\net8.0\Repository.dll
+d:\Project\Angular\HalloDoc\Backend\Repository\bin\Debug\net8.0\Repository.pdb
+d:\Project\Angular\HalloDoc\Backend\Repository\obj\Debug\net8.0\Repository.GeneratedMSBuildEditorConfig.editorconfig
+d:\Project\Angular\HalloDoc\Backend\Repository\obj\Debug\net8.0\Repository.AssemblyInfoInputs.cache
+d:\Project\Angular\HalloDoc\Backend\Repository\obj\Debug\net8.0\Repository.AssemblyInfo.cs
+d:\Project\Angular\HalloDoc\Backend\Repository\obj\Debug\net8.0\Repository.csproj.CoreCompileInputs.cache
+d:\Project\Angular\HalloDoc\Backend\Repository\obj\Debug\net8.0\Repository.dll
+d:\Project\Angular\HalloDoc\Backend\Repository\obj\Debug\net8.0\refint\Repository.dll
+d:\Project\Angular\HalloDoc\Backend\Repository\obj\Debug\net8.0\Repository.pdb
+D:\Project\Angular\HalloDoc\Backend\Repository\obj\Debug\net8.0\ref\Repository.dll
+d:\Project\Angular\HalloDoc\Backend\Repository\bin\Debug\net8.0\Repository.runtimeconfig.json
+d:\Project\Angular\HalloDoc\Backend\Repository\bin\Debug\net8.0\Entity.dll
+d:\Project\Angular\HalloDoc\Backend\Repository\bin\Debug\net8.0\Entity.pdb
+d:\Project\Angular\HalloDoc\Backend\Repository\obj\Debug\net8.0\Repository.csproj.AssemblyReference.cache
+d:\Project\Angular\HalloDoc\Backend\Repository\obj\Debug\net8.0\Repository.csproj.Up2Date
+d:\Project\Angular\HalloDoc\Backend\Repository\obj\Debug\net8.0\Repository.genruntimeconfig.cache
