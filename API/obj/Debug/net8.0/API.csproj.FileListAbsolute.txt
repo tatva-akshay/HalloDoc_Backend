@@ -145,3 +145,14 @@ d:\Project\Angular\HalloDoc\Backend\API\bin\Debug\net8.0\Entity.pdb
 d:\Project\Angular\HalloDoc\Backend\API\bin\Debug\net8.0\CloudinaryDotNet.dll
 d:\Project\Angular\HalloDoc\Backend\API\bin\Debug\net8.0\Newtonsoft.Json.dll
 d:\Project\Angular\HalloDoc\Backend\API\bin\Debug\net8.0\Twilio.dll
+d:\Project\Angular\HalloDoc\Backend\API\obj\Debug\net8.0\API.sourcelink.json
+d:\Project\Angular\HalloDoc\Backend\API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+d:\Project\Angular\HalloDoc\Backend\API\bin\Debug\net8.0\Serilog.dll
+d:\Project\Angular\HalloDoc\Backend\API\bin\Debug\net8.0\Serilog.AspNetCore.dll
+d:\Project\Angular\HalloDoc\Backend\API\bin\Debug\net8.0\Serilog.Extensions.Hosting.dll
+d:\Project\Angular\HalloDoc\Backend\API\bin\Debug\net8.0\Serilog.Extensions.Logging.dll
+d:\Project\Angular\HalloDoc\Backend\API\bin\Debug\net8.0\Serilog.Formatting.Compact.dll
+d:\Project\Angular\HalloDoc\Backend\API\bin\Debug\net8.0\Serilog.Settings.Configuration.dll
+d:\Project\Angular\HalloDoc\Backend\API\bin\Debug\net8.0\Serilog.Sinks.Console.dll
+d:\Project\Angular\HalloDoc\Backend\API\bin\Debug\net8.0\Serilog.Sinks.Debug.dll
+d:\Project\Angular\HalloDoc\Backend\API\bin\Debug\net8.0\Serilog.Sinks.File.dll

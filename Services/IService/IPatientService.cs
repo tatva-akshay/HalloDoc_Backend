@@ -18,4 +18,9 @@ public interface IPatientService
     Task<List<Region>> getAllRegionList();
     Task CreateAccountPatient(LoginDTO loginDetails);
     Task<ResetPasswordVM> ForgotPassword(string Email);
+    Task<PatientProfile> GetPatientProfile(string Email);
+    Task UpdatePatientProfile(PatientProfile patientDetails);
+    Task<PatientDashboard> GetDashboardContent(int userId);
+    Task<SingleRequest> GetSingleRequestDetails(int requestId);
+    Task UploadDocuments(UploadDocument userUploadedDocuments);
 }

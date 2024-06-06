@@ -29,7 +29,6 @@ public partial class EmailLog
     [Unicode(false)]
     public string? ConfirmationNumber { get; set; }
 
-    [StringLength(1)]
     [Unicode(false)]
     public string? FilePath { get; set; }
 
@@ -41,19 +40,21 @@ public partial class EmailLog
 
     public int? PhysicianId { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime CreateDate { get; set; }
+    public DateOnly CreateDate { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? SentDate { get; set; }
-
-    public bool? IsEmailSent { get; set; }
+    public DateOnly? SentDate { get; set; }
 
     public int? SentTries { get; set; }
 
     public int? Action { get; set; }
 
+    public bool? IsEmailSent { get; set; }
+
     [ForeignKey("RequestId")]
     [InverseProperty("EmailLogs")]
     public virtual Request? Request { get; set; }
+
+    [ForeignKey("RoleId")]
+    [InverseProperty("EmailLogs")]
+    public virtual Role? Role { get; set; }
 }

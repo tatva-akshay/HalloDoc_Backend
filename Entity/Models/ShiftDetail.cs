@@ -14,8 +14,7 @@ public partial class ShiftDetail
 
     public int ShiftId { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime ShiftDate { get; set; }
+    public DateOnly ShiftDate { get; set; }
 
     public int? RegionId { get; set; }
 
@@ -24,12 +23,6 @@ public partial class ShiftDetail
     public TimeOnly EndTime { get; set; }
 
     public short Status { get; set; }
-
-    public bool IsDeleted { get; set; }
-
-    [StringLength(128)]
-    [Unicode(false)]
-    public string? ModifiedBy { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime? ModifiedDate { get; set; }
@@ -41,11 +34,15 @@ public partial class ShiftDetail
     [Unicode(false)]
     public string? EventId { get; set; }
 
+    public int? Modifiedby { get; set; }
+
+    public bool? IsDeleted { get; set; }
+
     public bool? IsSync { get; set; }
 
-    [ForeignKey("ModifiedBy")]
+    [ForeignKey("Modifiedby")]
     [InverseProperty("ShiftDetails")]
-    public virtual AspNetUser? ModifiedByNavigation { get; set; }
+    public virtual AspNetUser? ModifiedbyNavigation { get; set; }
 
     [ForeignKey("ShiftId")]
     [InverseProperty("ShiftDetails")]

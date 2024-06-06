@@ -32,8 +32,4 @@ public partial class RequestClosed
     [ForeignKey("RequestId")]
     [InverseProperty("RequestCloseds")]
     public virtual Request Request { get; set; } = null!;
-
-    [ForeignKey("RequestStatusLogId")]
-    [InverseProperty("RequestCloseds")]
-    public virtual RequestStatusLog RequestStatusLog { get; set; } = null!;
 }

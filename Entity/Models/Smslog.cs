@@ -10,8 +10,8 @@ namespace Entity.Models;
 public partial class Smslog
 {
     [Key]
-    [Column("SMSLogID", TypeName = "decimal(9, 0)")]
-    public decimal SmslogId { get; set; }
+    [Column("SMSLogID")]
+    public int SmslogId { get; set; }
 
     [Column("SMSTemplate")]
     [Unicode(false)]
@@ -33,16 +33,22 @@ public partial class Smslog
 
     public int? PhysicianId { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime CreateDate { get; set; }
+    public DateOnly CreateDate { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? SentDate { get; set; }
-
-    [Column("IsSMSSent")]
-    public bool? IsSmssent { get; set; }
+    public DateOnly? SentDate { get; set; }
 
     public int SentTries { get; set; }
 
     public int? Action { get; set; }
+
+    [Column("IsSMSSent")]
+    public bool? IsSmssent { get; set; }
+
+    [ForeignKey("RequestId")]
+    [InverseProperty("Smslogs")]
+    public virtual Request? Request { get; set; }
+
+    [ForeignKey("RoleId")]
+    [InverseProperty("Smslogs")]
+    public virtual Role? Role { get; set; }
 }

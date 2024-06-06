@@ -41,18 +41,13 @@ public partial class Request
     public string? ConfirmationNumber { get; set; }
 
     [Column(TypeName = "datetime")]
-    public DateTime CreatedDate { get; set; }
-
-    public bool? IsDeleted { get; set; }
-
-    [Column(TypeName = "datetime")]
     public DateTime? ModifiedDate { get; set; }
 
     [StringLength(250)]
     [Unicode(false)]
     public string? DeclinedBy { get; set; }
 
-    public bool IsUrgentEmailSent { get; set; }
+    public bool? IsUrgentEmailSent { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime? LastWellnessDate { get; set; }
@@ -96,8 +91,25 @@ public partial class Request
 
     public int? CreatedUserId { get; set; }
 
+    [Column(TypeName = "datetime")]
+    public DateTime? CreatedDate { get; set; }
+
+    public bool? IsDeleted { get; set; }
+
+    [InverseProperty("Request")]
+    public virtual ICollection<BlockRequest> BlockRequests { get; set; } = new List<BlockRequest>();
+
+    [InverseProperty("Request")]
+    public virtual ICollection<Chat> Chats { get; set; } = new List<Chat>();
+
     [InverseProperty("Request")]
     public virtual ICollection<EmailLog> EmailLogs { get; set; } = new List<EmailLog>();
+
+    [InverseProperty("Request")]
+    public virtual ICollection<Encounter> Encounters { get; set; } = new List<Encounter>();
+
+    [InverseProperty("Request")]
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     [ForeignKey("PhysicianId")]
     [InverseProperty("Requests")]
@@ -124,7 +136,6 @@ public partial class Request
     [InverseProperty("Request")]
     public virtual ICollection<RequestWiseFile> RequestWiseFiles { get; set; } = new List<RequestWiseFile>();
 
-    [ForeignKey("UserId")]
-    [InverseProperty("Requests")]
-    public virtual User? User { get; set; }
+    [InverseProperty("Request")]
+    public virtual ICollection<Smslog> Smslogs { get; set; } = new List<Smslog>();
 }

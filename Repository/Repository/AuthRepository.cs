@@ -16,7 +16,8 @@ public class AuthRepository : IAuthRepository
 {
     private readonly ApplicationDbContext _context;
     private readonly IConfiguration _configuration;
-    public AuthRepository(ApplicationDbContext context, IConfiguration configuration){
+    public AuthRepository(ApplicationDbContext context, IConfiguration configuration)
+    {
         _context = context;
         _configuration = configuration;
     }
@@ -35,11 +36,9 @@ public class AuthRepository : IAuthRepository
         .Select(a=>new LoginUserStatus(){
             Email = a.User.Email,
             Password = a.User.PasswordHash,
-            Role = a.RoleId
+            Role = a.RoleId.ToString(),
         }).FirstOrDefaultAsync();
 
         return userStatus;
-        // return userStatus;
-       
     }
 }

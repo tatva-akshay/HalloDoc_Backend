@@ -15,3 +15,4 @@ d:\Project\Angular\HalloDoc\Backend\Services\obj\Debug\net8.0\Services.pdb
 d:\Project\Angular\HalloDoc\Backend\Services\obj\Debug\net8.0\ref\Services.dll
 d:\Project\Angular\HalloDoc\Backend\Services\bin\Debug\net8.0\Entity.dll
 d:\Project\Angular\HalloDoc\Backend\Services\bin\Debug\net8.0\Entity.pdb
+d:\Project\Angular\HalloDoc\Backend\Services\obj\Debug\net8.0\Services.sourcelink.json

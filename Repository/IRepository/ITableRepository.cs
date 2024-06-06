@@ -1,3 +1,4 @@
+using Entity.DTO.General;
 using Entity.Models;
 
 namespace Repository.IRepository;
@@ -17,4 +18,5 @@ public interface ITableRepository
 
     // Get Methods
     Task<List<Region>> getAllRegionList(); 
+    Task<List<RegionsDropDown>> GetRegionsDropDowns();
 }

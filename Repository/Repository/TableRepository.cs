@@ -1,4 +1,5 @@
 using Entity.DataContext;
+using Entity.DTO.General;
 using Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
@@ -66,4 +67,12 @@ public class TableRepository : ITableRepository
     {
         return await _context.Regions.ToListAsync();
     }
+
+    public async Task<List<RegionsDropDown>> GetRegionsDropDowns(){
+        return await _context.Regions.Select(a=>new RegionsDropDown(){
+            RegionId = a.RegionId,
+            Name = a.Name
+        }).ToListAsync();
+    }   
+
 }

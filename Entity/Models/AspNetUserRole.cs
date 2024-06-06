@@ -10,14 +10,17 @@ namespace Entity.Models;
 public partial class AspNetUserRole
 {
     [Key]
-    [StringLength(128)]
-    [Unicode(false)]
-    public string UserId { get; set; } = null!;
+    public int UserId { get; set; }
 
     [Key]
-    [StringLength(128)]
-    [Unicode(false)]
-    public string RoleId { get; set; } = null!;
+    public int RoleId { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? CreatedDate { get; set; }
+
+    [ForeignKey("RoleId")]
+    [InverseProperty("AspNetUserRoles")]
+    public virtual AspNetRole Role { get; set; } = null!;
 
     [ForeignKey("UserId")]
     [InverseProperty("AspNetUserRoles")]

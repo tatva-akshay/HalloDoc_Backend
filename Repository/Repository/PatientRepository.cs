@@ -26,8 +26,8 @@ public class PatientRepository : IPatientRepository
         .Select(a => new VerifyPatientRole()
         {
             aspNetUser = a.User,
-            IsPatient = a.RoleId == "3" ? true : false,
-            Role = a.RoleId
+            IsPatient = a.RoleId == 3 ? true : false,
+            Role = a.RoleId.ToString()
         }).FirstOrDefaultAsync();
         return user;
     }
@@ -70,4 +70,33 @@ public class PatientRepository : IPatientRepository
         return oldPasswordReset;
     }
 
+    public async Task<PatientDashboard> GetDashboardContent(int userId){
+        PatientDashboard patientDashboardData = new PatientDashboard();
+        patientDashboardData.dashboardContent = await _context.Requests
+        .Select(c=>new PatientDashboardContent(){
+            RequestId = c.RequestId,
+            Status = c.Status,
+            DocumentCount = _context.RequestWiseFiles.Where(a=>a.RequestId == c.RequestId).Count(),
+        }).ToListAsync();
+        return patientDashboardData;
+    }
+
+    public async Task<SingleRequest> GetSingleRequestDetails(int requestId){
+        SingleRequest requestData = new SingleRequest();
+        requestData.RequestId = requestId;
+        requestData.DocumentList = await _context.RequestWiseFiles.Where(a=>a.RequestId == requestId)
+        .Select(c=>new DocumentList(){
+            RequestId = c.RequestId,
+            RequestWiseFileId = c.RequestWiseFileId,
+            CreatedDate = c.CreatedDate,
+            FileName = c.FileName,
+            Uploader = c.AdminId == null ? 
+            (c.PhysicianId == null ? 
+            "Patient" + _context.RequestClients.FirstOrDefault(x=>x.RequestId == requestId).FirstName 
+            :"Provider" + _context.Physicians.FirstOrDefault(x=>x.PhysicianId == c.PhysicianId).FirstName)
+             : "Admin" + _context.Admins.FirstOrDefault(x=>x.AdminId == c.AdminId).FirstName
+        })
+        .ToListAsync();
+        return requestData;
+    }
 }

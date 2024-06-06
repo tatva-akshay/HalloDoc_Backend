@@ -38,4 +38,8 @@ public partial class OrderDetail
     [StringLength(100)]
     [Unicode(false)]
     public string? CreatedBy { get; set; }
+
+    [ForeignKey("RequestId")]
+    [InverseProperty("OrderDetails")]
+    public virtual Request? Request { get; set; }
 }

@@ -12,7 +12,7 @@ public partial class RequestClient
     [Key]
     public int RequestClientId { get; set; }
 
-    public int RequestId { get; set; }
+    public int? RequestId { get; set; }
 
     [StringLength(100)]
     [Unicode(false)]
@@ -96,10 +96,10 @@ public partial class RequestClient
 
     public short? IsReservationReminderSent { get; set; }
 
-    [Column(TypeName = "decimal(11, 8)")]
+    [Column(TypeName = "numeric(9, 0)")]
     public decimal? Latitude { get; set; }
 
-    [Column(TypeName = "decimal(11, 8)")]
+    [Column(TypeName = "numeric(9, 0)")]
     public decimal? Longitude { get; set; }
 
     [ForeignKey("RegionId")]
@@ -108,5 +108,5 @@ public partial class RequestClient
 
     [ForeignKey("RequestId")]
     [InverseProperty("RequestClients")]
-    public virtual Request Request { get; set; } = null!;
+    public virtual Request? Request { get; set; }
 }

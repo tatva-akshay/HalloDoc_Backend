@@ -16,17 +16,11 @@ public partial class Shift
 
     public DateOnly StartDate { get; set; }
 
-    public bool IsRepeat { get; set; }
-
     [StringLength(7)]
     [Unicode(false)]
     public string? WeekDays { get; set; }
 
     public int? RepeatUpto { get; set; }
-
-    [StringLength(128)]
-    [Unicode(false)]
-    public string CreatedBy { get; set; } = null!;
 
     [Column(TypeName = "datetime")]
     public DateTime CreatedDate { get; set; }
@@ -35,6 +29,10 @@ public partial class Shift
     [StringLength(20)]
     [Unicode(false)]
     public string? Ip { get; set; }
+
+    public int CreatedBy { get; set; }
+
+    public bool? IsRepeat { get; set; }
 
     [ForeignKey("CreatedBy")]
     [InverseProperty("Shifts")]

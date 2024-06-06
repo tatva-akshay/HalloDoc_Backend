@@ -1,7 +1,10 @@
 using System.Net;
+using AutoMapper;
 using Entity.DTO;
 using Entity.DTO.Login;
 using Entity.DTO.Patient;
+using Entity.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.IService;
 
@@ -14,10 +17,12 @@ public class PatientController : ControllerBase
     private readonly IPatientService _patientService;
     private readonly ICommunicationService _communicationService;
     private APIResponse _response;
-    public PatientController(IPatientService patientService, ICommunicationService communicationService)
+    private readonly IMapper _mapper;
+    public PatientController(IPatientService patientService, ICommunicationService communicationService, IMapper mapper)
     {
         _patientService = patientService;
         _communicationService = communicationService;
+        _mapper = mapper;
         _response = new();
     }
 
@@ -59,13 +64,15 @@ public class PatientController : ControllerBase
             _response.HttpStatusCode = HttpStatusCode.OK;
             _response.Result = "Successfull!";
             _response.IsSuccess = false;
+
             // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "");
             string resetLink = "reset password link";
             string Body = $"You can reset your password by {resetLink}";
             string Subject = "Reset Your Password";
+
             // id will be 0 for Patient
             //might not need to add this entry in email log
-            await _communicationService.GenericSendEmail(Email,Body,Subject,resetPassword.RoleId,resetPassword.id,1,"");
+            await _communicationService.GenericSendEmail(Email, Body, Subject, resetPassword.RoleId, resetPassword.id, 1, "");
             return Ok(_response);
         }
         catch (Exception ex)
@@ -85,7 +92,8 @@ public class PatientController : ControllerBase
         try
         {
             //check token valid for only 24 hours, doubt! but if he do not create at that time then request?
-            //just simply resetting/Creating the password
+            //just simply resetting/Creating the password even if 24 validity is expired, he can reset password. by request!
+            // for create account will be the same logic. because request is already registered for new Patient. so aspnetuser,user,request,requestclient
             await _patientService.CreateAccountPatient(loginDetails);
             _response.HttpStatusCode = HttpStatusCode.OK;
             _response.IsSuccess = true;
@@ -129,10 +137,6 @@ public class PatientController : ControllerBase
             if (ModelState.IsValid)
             {
                 int requestId = await _patientService.CreateRequest(requestData);
-                _response.HttpStatusCode = HttpStatusCode.Created;
-                _response.Result = "Reqeust Created SuccessFully";
-                _response.IsSuccess = true;
-
                 if (requestId == 0)
                 {
                     _response.HttpStatusCode = HttpStatusCode.BadRequest;
@@ -140,6 +144,9 @@ public class PatientController : ControllerBase
                     _response.Error = "Something Went Wrong!";
                     return BadRequest(_response);
                 }
+                _response.HttpStatusCode = HttpStatusCode.Created;
+                _response.Result = "Reqeust Created SuccessFully";
+                _response.IsSuccess = true;
 
                 // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "")
                 string Body = $"{requestData.Email} Your Request Has been Successfully Created! ";
@@ -172,7 +179,7 @@ public class PatientController : ControllerBase
         }
     }
 
-    [HttpPost("FamilyRequest")]
+    [HttpPost("OtherRequest")]
     public async Task<ActionResult<APIResponse>> OtherRequest(OtherRequest requestData)
     {
         try
@@ -182,10 +189,6 @@ public class PatientController : ControllerBase
                 int requestId = 0;
                 bool isExists = false;
                 (requestId, isExists) = await _patientService.OtherRequests(requestData);
-                _response.HttpStatusCode = HttpStatusCode.Created;
-                _response.Result = "Reqeust Created SuccessFully";
-                _response.IsSuccess = true;
-
                 if (requestId == 0)
                 {
                     _response.HttpStatusCode = HttpStatusCode.BadRequest;
@@ -193,6 +196,9 @@ public class PatientController : ControllerBase
                     _response.Error = "Something Went Wrong!";
                     return BadRequest(_response);
                 }
+                _response.HttpStatusCode = HttpStatusCode.Created;
+                _response.Result = "Reqeust Created SuccessFully";
+                _response.IsSuccess = true;
 
                 // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "")
                 string createLink = "";
@@ -209,7 +215,7 @@ public class PatientController : ControllerBase
                     Body = $"Your Request Has been Successfully Created! by {requestData.YFirstName} ";
                     Subject = "New Request";
                     await _communicationService.GenericSendEmail(requestData.Email, Body, Subject, 3, requestId, 0, "");
-                }       
+                }
                 return Ok(_response);
             }
             else
@@ -236,4 +242,153 @@ public class PatientController : ControllerBase
         }
     }
 
+    //Patient Dashboard
+    [Authorize(Roles = "3")]
+    [HttpGet(Name = "GetPatientProfile")]
+    public async Task<ActionResult<APIResponse>> GetPatientProfile(string userEmail)
+    {
+        try
+        {
+            //user definetely exists so not checking nullable
+            PatientProfile patientDetails = await _patientService.GetPatientProfile(userEmail);
+            _response.HttpStatusCode = HttpStatusCode.OK;
+            _response.Result = patientDetails;
+            _response.IsSuccess = true;
+            return Ok(_response);
+        }
+        catch (Exception ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Error = ex.ToString();
+            return BadRequest(_response);
+        }
+    }
+
+    [Authorize(Roles = "3")]
+    [HttpPut("EditPatientProfile")]
+    public async Task<ActionResult<APIResponse>> EditPatientProfile(PatientProfile patientDetails)
+    {
+        try
+        {
+            //user definetely exists so not checking nullable
+            // PatientProfile patientDetails = await _patientService.GetPatientProfile(userEmail); 
+            await _patientService.UpdatePatientProfile(patientDetails);
+            _response.HttpStatusCode = HttpStatusCode.OK;
+            _response.Result = "Profile Updated";
+            _response.IsSuccess = true;
+            return Ok(_response);
+        }
+        catch (BadHttpRequestException ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Error = ex.ToString();
+            return BadRequest(_response);
+        }
+        catch (Exception ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Error = ex.ToString();
+            return BadRequest(_response);
+        }
+    }
+
+    [Authorize(Roles = "3")]
+    [HttpGet("PatientDashboard")]
+    public async Task<ActionResult<APIResponse>> PatientDashboard(int userId)
+    {
+        try
+        {
+            //service to get dashboard content
+            PatientDashboard patientDashboardData = await _patientService.GetDashboardContent(userId);
+            if (patientDashboardData == null)
+            {
+                _response.HttpStatusCode = HttpStatusCode.OK;
+                _response.IsSuccess = true;
+                _response.Result = "No Data Found";
+                return Ok(_response);
+            }
+            _response.HttpStatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            _response.Result = patientDashboardData;
+            return Ok(_response);
+        }
+        catch (Exception ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Error = ex.ToString();
+            return BadRequest(_response);
+        }
+    }
+
+    [Authorize(Roles = "3")]
+    [HttpGet("SingleRequestView")]
+    public async Task<ActionResult<APIResponse>> SingleRequestView(int reqeustId)
+    {
+        try
+        {
+            //service to get dashboard content
+            SingleRequest singleRequestDetails = await _patientService.GetSingleRequestDetails(reqeustId);
+            _response.HttpStatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            _response.Result = singleRequestDetails;
+            return Ok(_response);
+        }
+        catch (Exception ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Error = ex.ToString();
+            return BadRequest(_response);
+        }
+    }
+
+    [Authorize(Roles = "3")]
+    [HttpPost("UploadDocument")]
+    public async Task<ActionResult<APIResponse>> UploadDocument(UploadDocument documentData)
+    {
+        try
+        {
+            //service to upload Documents
+            await _patientService.UploadDocuments(documentData);
+            _response.HttpStatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            _response.Result = "uploaded Successfully";
+            return Ok(_response);
+        } 
+        catch (Exception ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Error = ex.ToString();
+            return BadRequest(_response);
+        }
+    }
+
+    [Authorize(Roles ="3")]
+    [HttpGet("DownloadDocuments")]
+    public async Task<ActionResult<APIResponse>> DownloadDocuments(UploadDocument documentData)
+    {
+        try
+        {
+            //login to download document it will be done after frontend
+            
+            _response.HttpStatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            _response.Result = "uploaded Successfully";
+            return Ok( _response);
+        } 
+        catch (Exception ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Error = ex.ToString();
+            return BadRequest(_response);
+        }
+    }
+
+    //Review Agreement
 }

@@ -9,28 +9,21 @@ namespace Entity.Models;
 public partial class AspNetUser
 {
     [Key]
-    [StringLength(128)]
-    [Unicode(false)]
-    public string Id { get; set; } = null!;
+    public int Id { get; set; }
 
     [StringLength(256)]
-    [Unicode(false)]
     public string UserName { get; set; } = null!;
 
-    [Unicode(false)]
     public string? PasswordHash { get; set; }
 
     [StringLength(256)]
-    [Unicode(false)]
     public string? Email { get; set; }
 
     [StringLength(20)]
-    [Unicode(false)]
-    public string? PhoneNumber { get; set; }
+    public string? Phonenumber { get; set; }
 
     [Column("IP")]
     [StringLength(20)]
-    [Unicode(false)]
     public string? Ip { get; set; }
 
     [Column(TypeName = "datetime")]
@@ -63,7 +56,13 @@ public partial class AspNetUser
     [InverseProperty("ModifiedByNavigation")]
     public virtual ICollection<Physician> PhysicianModifiedByNavigations { get; set; } = new List<Physician>();
 
+    [InverseProperty("CreatedByNavigation")]
+    public virtual ICollection<RequestNote> RequestNoteCreatedByNavigations { get; set; } = new List<RequestNote>();
+
     [InverseProperty("ModifiedByNavigation")]
+    public virtual ICollection<RequestNote> RequestNoteModifiedByNavigations { get; set; } = new List<RequestNote>();
+
+    [InverseProperty("ModifiedbyNavigation")]
     public virtual ICollection<ShiftDetail> ShiftDetails { get; set; } = new List<ShiftDetail>();
 
     [InverseProperty("CreatedByNavigation")]

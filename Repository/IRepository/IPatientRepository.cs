@@ -14,4 +14,6 @@ public interface IPatientRepository
     Task<Admin> GetAdminByEmail(string emailId);
     Task<Physician> GetPhysicianByEmail(string emailId);
     Task<PasswordReset> GetPasswordResetByEmail(string userEmail);
+    Task<PatientDashboard> GetDashboardContent(int userId);
+    Task<SingleRequest> GetSingleRequestDetails(int requestId);
 }

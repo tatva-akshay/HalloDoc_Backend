@@ -33,7 +33,6 @@ public class OtherRequest
     [StringLength(50)]
     public string? LastName { get; set; }
 
-    [Required(ErrorMessage = "Select a Bdate")]
     public DateOnly? Bdate { get; set; }
 
     [StringLength(256)]
@@ -43,7 +42,7 @@ public class OtherRequest
     [StringLength(20)]
     public string? Mobile { get; set; }
 
-    public DateTime CreatedDate { get; set; }
+    public DateTime? CreatedDate { get; set; }
 
     [StringLength(50)]
     [Required]
@@ -59,7 +58,7 @@ public class OtherRequest
     [Required]
     public int regionId { get; set; }
 
-    public List<Region> allRegion { get; set; }
+    public List<Region>? allRegion { get; set; }
 
     [Required]
     public decimal ZipCode { get; set; }

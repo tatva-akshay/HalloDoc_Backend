@@ -23,6 +23,26 @@ public class PatientService : IPatientService
         _authRepository = authRepository;
     }
 
+    public async Task CreateAccountPatient(LoginDTO loginDetails)
+    {
+        try
+        {
+            AspNetUser oldAspNetUser = await _patientRepository.GetAspNetUserByEmail(loginDetails.Email);
+            oldAspNetUser.PasswordHash = BCrypt.Net.BCrypt.HashPassword(loginDetails.Password);
+            oldAspNetUser.ModifiedDate = DateTime.Now;
+
+            //btw no need to do this if not checking 24 hours validation
+            PasswordReset passwordReset = await _patientRepository.GetPasswordResetByEmail(loginDetails.Email);
+            passwordReset.IsUpdated = true;
+
+            await _tableRepository.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
     public async Task<ResetPasswordVM> ForgotPassword(string Email)
     {
         AspNetUser oldAspNetUser = await _patientRepository.GetAspNetUserByEmail(Email);
@@ -52,18 +72,25 @@ public class PatientService : IPatientService
         resetPassword.RoleId = int.Parse(userStatus.Role);
 
         //repo method to make entry in passwordReset Table
+        PasswordReset passwordReset = await _patientRepository.GetPasswordResetByEmail(Email);
         string Token = Guid.NewGuid().ToString();
-        PasswordReset newResetPassword = new()
+        if (passwordReset == null)
         {
-            Token = Token,
-            CreatedDate = DateTime.Now,
-            Email = Email,
-            IsUpdated = false
-        };
-
-        await _tableRepository.AddPasswordReset(newResetPassword);
+            PasswordReset newResetPassword = new()
+            {
+                Token = Token,
+                CreatedDate = DateTime.Now,
+                Email = Email,
+                IsUpdated = false
+            };
+            await _tableRepository.AddPasswordReset(newResetPassword);
+        }
+        else
+        {
+            passwordReset.Token = Token;
+            passwordReset.CreatedDate = DateTime.Now;
+        }
         await _tableRepository.SaveChanges();
-
         resetPassword.isValidated = true;
         return resetPassword;
     }
@@ -102,7 +129,7 @@ public class PatientService : IPatientService
                     UserName = requestData.FirstName + requestData.LastName,
                     Email = requestData.Email,
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword(requestData.PasswordHash),
-                    PhoneNumber = requestData.Mobile,
+                    Phonenumber = requestData.Mobile,
                     CreatedDate = DateTime.Now
                 };
 
@@ -111,6 +138,7 @@ public class PatientService : IPatientService
 
                 User newUser = new User();
                 newUser.AspNetUserId = aspuser.Id;
+                newUser.IsDeleted = false;
                 newUser.FirstName = requestData.FirstName;
                 newUser.LastName = requestData.LastName;
                 newUser.Email = requestData.Email;
@@ -132,7 +160,7 @@ public class PatientService : IPatientService
                 AspNetUserRole aspNetUserRole = new()
                 {
                     UserId = aspuser.Id,
-                    RoleId = "3"
+                    RoleId = 3
                 };
 
                 await _tableRepository.AddAspNetUserRole(aspNetUserRole);
@@ -230,13 +258,14 @@ public class PatientService : IPatientService
                 AspNetUser newAspNetUser = new AspNetUser();
                 newAspNetUser.UserName = requestData.FirstName;
                 newAspNetUser.Email = requestData.Email;
-                newAspNetUser.PhoneNumber = requestData.Mobile;
+                newAspNetUser.Phonenumber = requestData.Mobile;
 
                 await _tableRepository.AddAspNetUser(newAspNetUser);
                 await _tableRepository.SaveChanges();
 
                 User newUser = new User();
                 newUser.AspNetUserId = newAspNetUser.Id;
+                newUser.IsDeleted = false;
                 newUser.Email = requestData.Email;
                 newUser.FirstName = requestData.FirstName;
                 newUser.LastName = requestData.LastName;
@@ -261,7 +290,7 @@ public class PatientService : IPatientService
 
                 AspNetUserRole newAspNetUserRole = new AspNetUserRole();
                 newAspNetUserRole.UserId = newAspNetUser.Id;
-                newAspNetUserRole.RoleId = "3";
+                newAspNetUserRole.RoleId = 3;
 
                 await _tableRepository.AddAspNetUserRole(newAspNetUserRole);
                 await _tableRepository.SaveChanges();
@@ -383,18 +412,125 @@ public class PatientService : IPatientService
         return await _tableRepository.getAllRegionList();
     }
 
-    public async Task CreateAccountPatient(LoginDTO loginDetails)
+    public async Task<PatientProfile> GetPatientProfile(string Email)
     {
         try
         {
-            AspNetUser oldAspNetUser = await _patientRepository.GetAspNetUserByEmail(loginDetails.Email);
-            oldAspNetUser.PasswordHash = BCrypt.Net.BCrypt.HashPassword(loginDetails.Password);
-            oldAspNetUser.ModifiedDate = DateTime.Now;
+            User user = await _patientRepository.GetUserByEmail(Email);
+            PatientProfile patientDetails = new()
+            {
+                UserId = user.UserId,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Mobile = user.Mobile,
+                Street = user.Street,
+                City = user.City,
+                State = user.State,
+                ZipCode = user.ZipCode,
+                regionId = (int)user.RegionId,
+            };
+            patientDetails.allRegion = await _tableRepository.GetRegionsDropDowns();
 
-            //btw no need to do this if not checking 24 hours validation
-            PasswordReset passwordReset = await _patientRepository.GetPasswordResetByEmail(loginDetails.Email);
-            passwordReset.IsUpdated = true;
+            if (user.StrMonth != null && user.IntDate != null && user.IntYear != null)
+            {
+                string day = $"{user.IntDate:00}";
+                string month = $"{int.Parse(user.StrMonth):00}";
+                string year = $"{(user.IntYear):0000}";
 
+                DateTime parseDate = DateTime.ParseExact(day + month + year, "ddMMyyyy", System.Globalization.CultureInfo.InvariantCulture);
+                patientDetails.Bdate = parseDate;
+                return patientDetails;
+            }
+            return patientDetails;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    public async Task UpdatePatientProfile(PatientProfile patientDetails)
+    {
+        try
+        {
+            User user = await _patientRepository.GetUserByEmail(patientDetails.Email);
+            string userState = await _patientRepository.GetStateName(patientDetails.regionId);
+
+            user.FirstName = patientDetails.FirstName;
+            user.LastName = patientDetails.LastName;
+            user.Mobile = patientDetails.Mobile;
+            user.Street = patientDetails.Street;
+            user.City = patientDetails.City;
+            user.State = patientDetails.State;
+            user.ZipCode = patientDetails.ZipCode;
+            user.RegionId = patientDetails.regionId;
+            user.State = userState;
+
+            if (patientDetails.Bdate != null)
+            {
+                user.IntDate = int.Parse(patientDetails.Bdate.Value.Day.ToString());
+                user.IntYear = int.Parse(patientDetails.Bdate.Value.Year.ToString());
+                user.StrMonth = patientDetails.Bdate.Value.Month.ToString();
+            }
+            await _tableRepository.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+    public async Task<PatientDashboard> GetDashboardContent(int userId)
+    {
+        try
+        {
+            return await _patientRepository.GetDashboardContent(userId);
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    public async Task<SingleRequest> GetSingleRequestDetails(int requestId)
+    {
+        try
+        {
+            return await _patientRepository.GetSingleRequestDetails(requestId);
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    public async Task UploadDocuments(UploadDocument userUploadedDocuments)
+    {
+        try
+        {
+            foreach (var file in userUploadedDocuments.uploadedDocumentList)
+            {
+                string path = Path.Combine(@"D:/Project/Angular/HalloDoc/Documents/" + "Request" + userUploadedDocuments.RequestId);
+
+                // Create folder if not exist
+                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
+                string fileNameWithPath = Path.Combine(path, file.FileName);
+
+                RequestWiseFile newRequestWiseFile = new RequestWiseFile()
+                {
+                    RequestId = userUploadedDocuments.RequestId,
+                    FileName = fileNameWithPath,
+                    CreatedDate = DateTime.Now,
+                    IsDeleted = false
+                };  
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    file.CopyToAsync(stream);
+                }
+                await _tableRepository.AddRequestWiseFile(newRequestWiseFile);
+            }
             await _tableRepository.SaveChanges();
         }
         catch (Exception ex)

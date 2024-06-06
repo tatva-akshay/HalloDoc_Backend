@@ -32,16 +32,12 @@ public partial class RequestNote
     [Unicode(false)]
     public string? AdminNotes { get; set; }
 
-    [StringLength(128)]
-    [Unicode(false)]
-    public string CreatedBy { get; set; } = null!;
+    public int CreatedBy { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime CreatedDate { get; set; }
 
-    [StringLength(128)]
-    [Unicode(false)]
-    public string? ModifiedBy { get; set; }
+    public int? ModifiedBy { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime? ModifiedDate { get; set; }
@@ -54,6 +50,14 @@ public partial class RequestNote
     [StringLength(500)]
     [Unicode(false)]
     public string? AdministrativeNotes { get; set; }
+
+    [ForeignKey("CreatedBy")]
+    [InverseProperty("RequestNoteCreatedByNavigations")]
+    public virtual AspNetUser CreatedByNavigation { get; set; } = null!;
+
+    [ForeignKey("ModifiedBy")]
+    [InverseProperty("RequestNoteModifiedByNavigations")]
+    public virtual AspNetUser? ModifiedByNavigation { get; set; }
 
     [ForeignKey("RequestId")]
     [InverseProperty("RequestNotes")]

@@ -27,7 +27,7 @@ public class CommunicationRepository : ICommunicationRepository
                         case 1: newEmailLog.AdminId = newEmailLog.RequestId; newEmailLog.RequestId = null; break;
                         case 2: newEmailLog.PhysicianId = newEmailLog.RequestId; newEmailLog.RequestId = null; break;
                     }
-                    newEmailLog.CreateDate = DateTime.Now;
+                    newEmailLog.CreateDate = DateOnly.FromDateTime(DateTime.Now);
                     newEmailLog.IsEmailSent = false;
                     newEmailLog.Action = 1;
                     //Action ???
@@ -45,7 +45,7 @@ public class CommunicationRepository : ICommunicationRepository
                 else
                 {
                     EmailLog updateEmaillog = context.EmailLogs.FirstOrDefault(a => a.EmailLogId == newEmailLog.EmailLogId);
-                    updateEmaillog.SentDate = DateTime.Now;
+                    updateEmaillog.SentDate = DateOnly.FromDateTime(DateTime.Now);
                     updateEmaillog.SentTries = newEmailLog.SentTries;
                     updateEmaillog.IsEmailSent = false;
                     updateEmaillog.Action = 1;
@@ -77,7 +77,7 @@ public class CommunicationRepository : ICommunicationRepository
                         case 1: newSMSLog.AdminId = newSMSLog.RequestId; newSMSLog.RequestId = null; break;
                         case 2: newSMSLog.PhysicianId = newSMSLog.RequestId; newSMSLog.RequestId = null; break;
                     }
-                    newSMSLog.CreateDate = DateTime.Now;
+                    newSMSLog.CreateDate = DateOnly.FromDateTime(DateTime.Now);
                     newSMSLog.IsSmssent = false;
                     newSMSLog.Action = 1;
                     //Action ???
@@ -95,7 +95,7 @@ public class CommunicationRepository : ICommunicationRepository
                 else
                 {
                     Smslog updateSMSlog = context.Smslogs.FirstOrDefault(a => a.SmslogId == newSMSLog.SmslogId);
-                    updateSMSlog.SentDate = DateTime.Now;
+                    updateSMSlog.SentDate = DateOnly.FromDateTime(DateTime.Now);
                     updateSMSlog.SentTries = newSMSLog.SentTries;
                     updateSMSlog.IsSmssent =false;
                     updateSMSlog.Action = 1;

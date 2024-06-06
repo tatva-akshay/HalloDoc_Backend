@@ -123,7 +123,7 @@ public class CommunicationService : ICommunicationService
         {
             Smstemplate = Body,
             RoleId = RoleId,
-            CreateDate = DateTime.Now,
+            CreateDate = DateOnly.FromDateTime(DateTime.Now),
             MobileNumber = ToMobile,
         };
 

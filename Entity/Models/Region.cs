@@ -13,11 +13,9 @@ public partial class Region
     public int RegionId { get; set; }
 
     [StringLength(50)]
-    [Unicode(false)]
     public string Name { get; set; } = null!;
 
     [StringLength(50)]
-    [Unicode(false)]
     public string? Abbreviation { get; set; }
 
     [InverseProperty("Region")]

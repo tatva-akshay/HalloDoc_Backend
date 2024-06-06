@@ -14,14 +14,14 @@ public partial class PhysicianLocation
 
     public int PhysicianId { get; set; }
 
-    [Column(TypeName = "decimal(11, 8)")]
+    [Column(TypeName = "numeric(18, 10)")]
     public decimal? Latitude { get; set; }
 
-    [Column(TypeName = "decimal(11, 8)")]
+    [Column(TypeName = "numeric(18, 10)")]
     public decimal? Longitude { get; set; }
 
     [Column(TypeName = "datetime")]
-    public DateTime? CreatedDate { get; set; }
+    public DateTime CreatedDate { get; set; }
 
     [StringLength(50)]
     [Unicode(false)]

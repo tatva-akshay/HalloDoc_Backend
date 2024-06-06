@@ -39,7 +39,7 @@ public partial class Concierge
     [Column(TypeName = "datetime")]
     public DateTime CreatedDate { get; set; }
 
-    public int RegionId { get; set; }
+    public int? RegionId { get; set; }
 
     [StringLength(20)]
     [Unicode(false)]
@@ -47,7 +47,7 @@ public partial class Concierge
 
     [ForeignKey("RegionId")]
     [InverseProperty("Concierges")]
-    public virtual Region Region { get; set; } = null!;
+    public virtual Region? Region { get; set; }
 
     [InverseProperty("Concierge")]
     public virtual ICollection<RequestConcierge> RequestConcierges { get; set; } = new List<RequestConcierge>();

@@ -8,12 +8,13 @@ namespace Entity.Models;
 
 public partial class AspNetRole
 {
-    [Key]
-    [StringLength(128)]
-    [Unicode(false)]
-    public string Id { get; set; } = null!;
-
     [StringLength(256)]
     [Unicode(false)]
     public string Name { get; set; } = null!;
+
+    [Key]
+    public int Id { get; set; }
+
+    [InverseProperty("Role")]
+    public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; } = new List<AspNetUserRole>();
 }

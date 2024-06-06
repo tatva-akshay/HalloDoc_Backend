@@ -49,8 +49,6 @@ public partial class HealthProfessional
     [Unicode(false)]
     public string? PhoneNumber { get; set; }
 
-    public bool? IsDeleted { get; set; }
-
     [Column("IP")]
     [StringLength(20)]
     [Unicode(false)]
@@ -63,6 +61,8 @@ public partial class HealthProfessional
     [StringLength(100)]
     [Unicode(false)]
     public string? BusinessContact { get; set; }
+
+    public bool? IsDeleted { get; set; }
 
     [ForeignKey("Profession")]
     [InverseProperty("HealthProfessionals")]

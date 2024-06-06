@@ -12,7 +12,7 @@ public partial class Business
     [Key]
     public int BusinessId { get; set; }
 
-    [StringLength(100)]
+    [StringLength(128)]
     [Unicode(false)]
     public string Name { get; set; } = null!;
 
@@ -30,7 +30,7 @@ public partial class Business
 
     public int? RegionId { get; set; }
 
-    [StringLength(10)]
+    [StringLength(100)]
     [Unicode(false)]
     public string? ZipCode { get; set; }
 
@@ -42,30 +42,26 @@ public partial class Business
     [Unicode(false)]
     public string? FaxNumber { get; set; }
 
-    public bool? IsRegistered { get; set; }
-
-    [StringLength(128)]
-    [Unicode(false)]
-    public string? CreatedBy { get; set; }
-
     [Column(TypeName = "datetime")]
-    public DateTime CreatedDate { get; set; }
-
-    [StringLength(128)]
-    [Unicode(false)]
-    public string? ModifiedBy { get; set; }
+    public DateTime? CreatedDate { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime? ModifiedDate { get; set; }
 
     public short? Status { get; set; }
 
-    public bool? IsDeleted { get; set; }
-
     [Column("IP")]
     [StringLength(20)]
     [Unicode(false)]
     public string? Ip { get; set; }
+
+    public int? CreatedBy { get; set; }
+
+    public int? ModifiedBy { get; set; }
+
+    public bool? IsDeleted { get; set; }
+
+    public bool? IsRegistered { get; set; }
 
     [ForeignKey("CreatedBy")]
     [InverseProperty("BusinessCreatedByNavigations")]

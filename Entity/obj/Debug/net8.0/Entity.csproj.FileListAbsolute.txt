@@ -12,3 +12,4 @@ D:\Project\Angular\HalloDoc\Backend\Entity\obj\Debug\net8.0\refint\Entity.dll
 D:\Project\Angular\HalloDoc\Backend\Entity\obj\Debug\net8.0\Entity.pdb
 D:\Project\Angular\HalloDoc\Backend\Entity\obj\Debug\net8.0\Entity.genruntimeconfig.cache
 D:\Project\Angular\HalloDoc\Backend\Entity\obj\Debug\net8.0\ref\Entity.dll
+d:\Project\Angular\HalloDoc\Backend\Entity\obj\Debug\net8.0\Entity.sourcelink.json

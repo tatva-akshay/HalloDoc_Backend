@@ -12,10 +12,6 @@ public partial class Physician
     [Key]
     public int PhysicianId { get; set; }
 
-    [StringLength(128)]
-    [Unicode(false)]
-    public string? AspNetUserId { get; set; }
-
     [StringLength(100)]
     [Unicode(false)]
     public string FirstName { get; set; } = null!;
@@ -26,7 +22,7 @@ public partial class Physician
 
     [StringLength(50)]
     [Unicode(false)]
-    public string Email { get; set; } = null!;
+    public string? Email { get; set; }
 
     [StringLength(20)]
     [Unicode(false)]
@@ -43,14 +39,6 @@ public partial class Physician
     [StringLength(500)]
     [Unicode(false)]
     public string? AdminNotes { get; set; }
-
-    public bool? IsAgreementDoc { get; set; }
-
-    public bool? IsBackgroundDoc { get; set; }
-
-    public bool? IsTrainingDoc { get; set; }
-
-    public bool? IsNonDisclosureDoc { get; set; }
 
     [StringLength(500)]
     [Unicode(false)]
@@ -74,16 +62,8 @@ public partial class Physician
     [Unicode(false)]
     public string? AltPhone { get; set; }
 
-    [StringLength(128)]
-    [Unicode(false)]
-    public string CreatedBy { get; set; } = null!;
-
     [Column(TypeName = "datetime")]
     public DateTime CreatedDate { get; set; }
-
-    [StringLength(128)]
-    [Unicode(false)]
-    public string? ModifiedBy { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime? ModifiedDate { get; set; }
@@ -98,8 +78,6 @@ public partial class Physician
     [Unicode(false)]
     public string BusinessWebsite { get; set; } = null!;
 
-    public bool? IsDeleted { get; set; }
-
     public int? RoleId { get; set; }
 
     [Column("NPINumber")]
@@ -107,13 +85,9 @@ public partial class Physician
     [Unicode(false)]
     public string? Npinumber { get; set; }
 
-    public bool? IsLicenseDoc { get; set; }
-
     [StringLength(100)]
     [Unicode(false)]
     public string? Signature { get; set; }
-
-    public bool? IsCredentialDoc { get; set; }
 
     public bool? IsTokenGenerate { get; set; }
 
@@ -121,9 +95,32 @@ public partial class Physician
     [Unicode(false)]
     public string? SyncEmailAddress { get; set; }
 
+    public int? AspNetUserId { get; set; }
+
+    public int CreatedBy { get; set; }
+
+    public int? ModifiedBy { get; set; }
+
+    public bool? IsAgreementDoc { get; set; }
+
+    public bool? IsBackgroundDoc { get; set; }
+
+    public bool? IsTrainingDoc { get; set; }
+
+    public bool? IsNonDisclosureDoc { get; set; }
+
+    public bool? IsDeleted { get; set; }
+
+    public bool? IsLicenseDoc { get; set; }
+
+    public bool? IsCredentialDoc { get; set; }
+
     [ForeignKey("AspNetUserId")]
     [InverseProperty("PhysicianAspNetUsers")]
     public virtual AspNetUser? AspNetUser { get; set; }
+
+    [InverseProperty("Provider")]
+    public virtual ICollection<Chat> Chats { get; set; } = new List<Chat>();
 
     [ForeignKey("CreatedBy")]
     [InverseProperty("PhysicianCreatedByNavigations")]
@@ -132,6 +129,9 @@ public partial class Physician
     [ForeignKey("ModifiedBy")]
     [InverseProperty("PhysicianModifiedByNavigations")]
     public virtual AspNetUser? ModifiedByNavigation { get; set; }
+
+    [InverseProperty("Physician")]
+    public virtual ICollection<PayRate> PayRates { get; set; } = new List<PayRate>();
 
     [InverseProperty("Physician")]
     public virtual ICollection<PhysicianLocation> PhysicianLocations { get; set; } = new List<PhysicianLocation>();
@@ -154,6 +154,13 @@ public partial class Physician
     [InverseProperty("Physician")]
     public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
 
+    [ForeignKey("RoleId")]
+    [InverseProperty("Physicians")]
+    public virtual Role? Role { get; set; }
+
     [InverseProperty("Physician")]
     public virtual ICollection<Shift> Shifts { get; set; } = new List<Shift>();
+
+    [InverseProperty("Provider")]
+    public virtual ICollection<WeeklyTimeSheet> WeeklyTimeSheets { get; set; } = new List<WeeklyTimeSheet>();
 }

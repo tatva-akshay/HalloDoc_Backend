@@ -6,15 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Entity.Models;
 
-[Table("User")]
 public partial class User
 {
     [Key]
     public int UserId { get; set; }
-
-    [StringLength(128)]
-    [Unicode(false)]
-    public string? AspNetUserId { get; set; }
 
     [StringLength(100)]
     [Unicode(false)]
@@ -65,7 +60,7 @@ public partial class User
 
     [StringLength(128)]
     [Unicode(false)]
-    public string CreatedBy { get; set; } = null!;
+    public string? CreatedBy { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime CreatedDate { get; set; }
@@ -88,10 +83,9 @@ public partial class User
 
     public bool? IsRequestWithEmail { get; set; }
 
+    public int? AspNetUserId { get; set; }
+
     [ForeignKey("AspNetUserId")]
     [InverseProperty("Users")]
     public virtual AspNetUser? AspNetUser { get; set; }
-
-    [InverseProperty("User")]
-    public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
 }
