@@ -16,4 +16,5 @@ public interface IPatientRepository
     Task<PasswordReset> GetPasswordResetByEmail(string userEmail);
     Task<PatientDashboard> GetDashboardContent(int userId);
     Task<SingleRequest> GetSingleRequestDetails(int requestId);
+    Task<DownloadRWFResponse> DownloadRequestWiseFileDocuments(DownloadRWF downloadRWF);
 }

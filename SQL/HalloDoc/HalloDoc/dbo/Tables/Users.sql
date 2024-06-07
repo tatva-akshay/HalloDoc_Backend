@@ -1,0 +1,28 @@
+﻿CREATE TABLE [dbo].[Users] (
+    [UserId]             INT           IDENTITY (1, 1) NOT NULL,
+    [FirstName]          VARCHAR (100) NOT NULL,
+    [LastName]           VARCHAR (100) NULL,
+    [Email]              VARCHAR (50)  NOT NULL,
+    [Mobile]             VARCHAR (20)  NULL,
+    [IsMobile]           BIT           NULL,
+    [Street]             VARCHAR (100) NULL,
+    [City]               VARCHAR (100) NULL,
+    [State]              VARCHAR (100) NULL,
+    [RegionId]           INT           NULL,
+    [ZipCode]            VARCHAR (10)  NULL,
+    [strMonth]           VARCHAR (20)  NULL,
+    [intYear]            INT           NULL,
+    [intDate]            INT           NULL,
+    [CreatedBy]          VARCHAR (128) NULL,
+    [CreatedDate]        DATETIME      DEFAULT (getdate()) NOT NULL,
+    [ModifiedBy]         VARCHAR (128) NULL,
+    [ModifiedDate]       DATETIME      NULL,
+    [Status]             SMALLINT      NULL,
+    [IsDeleted]          BIT           NULL,
+    [IP]                 VARCHAR (20)  NULL,
+    [IsRequestWithEmail] BIT           NULL,
+    [AspNetUserId]       INT           NULL,
+    PRIMARY KEY CLUSTERED ([UserId] ASC),
+    CONSTRAINT [User_AspNetUserId_fkey] FOREIGN KEY ([AspNetUserId]) REFERENCES [dbo].[AspNetUsers] ([Id])
+);
+

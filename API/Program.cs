@@ -1,7 +1,9 @@
 using System.Text;
 using API;
+using API.CustomAuthorizeMiddleware;
 using Entity.DataContext;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;

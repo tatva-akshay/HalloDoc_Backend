@@ -3,10 +3,11 @@ using AutoMapper;
 using Entity.DTO;
 using Entity.DTO.Login;
 using Entity.DTO.Patient;
-using Entity.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.IService;
+using API.CustomAuthorizeMiddleware;
+using System.IO.Compression;
 
 namespace API.Controllers;
 
@@ -63,7 +64,7 @@ public class PatientController : ControllerBase
             }
             _response.HttpStatusCode = HttpStatusCode.OK;
             _response.Result = "Successfull!";
-            _response.IsSuccess = false;
+            _response.IsSuccess = true;
 
             // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "");
             string resetLink = "reset password link";
@@ -243,7 +244,7 @@ public class PatientController : ControllerBase
     }
 
     //Patient Dashboard
-    [Authorize(Roles = "3")]
+    [CustomAuthorize("3")]
     [HttpGet(Name = "GetPatientProfile")]
     public async Task<ActionResult<APIResponse>> GetPatientProfile(string userEmail)
     {
@@ -265,7 +266,7 @@ public class PatientController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "3")]
+    [CustomAuthorize("3")]
     [HttpPut("EditPatientProfile")]
     public async Task<ActionResult<APIResponse>> EditPatientProfile(PatientProfile patientDetails)
     {
@@ -295,7 +296,7 @@ public class PatientController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "3")]
+    [CustomAuthorize("3")]
     [HttpGet("PatientDashboard")]
     public async Task<ActionResult<APIResponse>> PatientDashboard(int userId)
     {
@@ -324,7 +325,7 @@ public class PatientController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "3")]
+    [CustomAuthorize("3")]
     [HttpGet("SingleRequestView")]
     public async Task<ActionResult<APIResponse>> SingleRequestView(int reqeustId)
     {
@@ -346,7 +347,7 @@ public class PatientController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "3")]
+    // [CustomAuthorize("3")]
     [HttpPost("UploadDocument")]
     public async Task<ActionResult<APIResponse>> UploadDocument(UploadDocument documentData)
     {
@@ -368,19 +369,136 @@ public class PatientController : ControllerBase
         }
     }
 
-    [Authorize(Roles ="3")]
-    [HttpGet("DownloadDocuments")]
-    public async Task<ActionResult<APIResponse>> DownloadDocuments(UploadDocument documentData)
+    // [CustomAuthorize("3")]
+    [HttpPost("DownloadDocuments")]
+    public async Task<ActionResult<APIResponse>> DownloadDocuments(DownloadRWF downloadRWF)
     {
         try
         {
             //login to download document it will be done after frontend
             
+             var zipMemoryStream = new MemoryStream();
+            DownloadRWFResponse downloadRWFResponse = await _patientService.DownloadDocuments(downloadRWF);
+
+            using (var zipArchive = new ZipArchive(zipMemoryStream, ZipArchiveMode.Create, true))
+            {
+                foreach (var file in downloadRWFResponse.RequestWiseFileList)
+                {
+                    var filePath = Path.Combine("wwwroot/Documents", file);
+                    var entry = zipArchive.CreateEntry(file);
+                    using (var entryStream = entry.Open())
+                    using (var fileStream = new FileStream(filePath, FileMode.Open))
+                    {
+                        fileStream.CopyTo(entryStream);
+                    }
+                }
+            }
+            zipMemoryStream.Seek(0, SeekOrigin.Begin);
+            return File(zipMemoryStream.ToArray(), "application/zip", "DownloadedFiles.zip");
+
             _response.HttpStatusCode = HttpStatusCode.OK;
             _response.IsSuccess = true;
             _response.Result = "uploaded Successfully";
             return Ok( _response);
         } 
+        catch (Exception ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Error = ex.ToString();
+            return BadRequest(_response);
+        }
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<APIResponse>> ForMeRequestGetData(){
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                // int requestId = await _patientService.CreateRequest(requestData);
+                // if (requestId == 0)
+                // {
+                //     _response.HttpStatusCode = HttpStatusCode.BadRequest;
+                //     _response.IsSuccess = false;
+                //     _response.Error = "Something Went Wrong!";
+                //     return BadRequest(_response);
+                // }
+                // _response.HttpStatusCode = HttpStatusCode.Created;
+                // _response.Result = "Reqeust Created SuccessFully";
+                // _response.IsSuccess = true;
+
+                // // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "")
+                // string Body = $"{requestData.Email} Your Request Has been Successfully Created! ";
+                // string Subject = "";
+                // await _communicationService.GenericSendEmail(requestData.Email, Body, Subject, 3, requestId, 0, "");
+
+                // return Ok(_response);
+            }
+            else
+            {
+                _response.HttpStatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.Error = "Model State Invalid!";
+                return BadRequest(_response);
+            }
+        }
+        catch (BadHttpRequestException ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Error = ex.ToString();
+            return BadRequest(_response);
+        }
+        catch (Exception ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Error = ex.ToString();
+            return BadRequest(_response);
+        }
+    }
+
+    [HttpPost("ForMeRequest")]
+    public async Task<ActionResult<APIResponse>> ForMeRequest(PatientDetails requestData){
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                int requestId = await _patientService.CreateRequest(requestData);
+                if (requestId == 0)
+                {
+                    _response.HttpStatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
+                    _response.Error = "Something Went Wrong!";
+                    return BadRequest(_response);
+                }
+                _response.HttpStatusCode = HttpStatusCode.Created;
+                _response.Result = "Reqeust Created SuccessFully";
+                _response.IsSuccess = true;
+
+                // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "")
+                string Body = $"{requestData.Email} Your Request Has been Successfully Created! ";
+                string Subject = "";
+                await _communicationService.GenericSendEmail(requestData.Email, Body, Subject, 3, requestId, 0, "");
+
+                return Ok(_response);
+            }
+            else
+            {
+                _response.HttpStatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.Error = "Model State Invalid!";
+                return BadRequest(_response);
+            }
+        }
+        catch (BadHttpRequestException ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Error = ex.ToString();
+            return BadRequest(_response);
+        }
         catch (Exception ex)
         {
             _response.HttpStatusCode = HttpStatusCode.BadRequest;

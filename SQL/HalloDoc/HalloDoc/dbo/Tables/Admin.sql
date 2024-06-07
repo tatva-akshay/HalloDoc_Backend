@@ -1,0 +1,25 @@
+﻿CREATE TABLE [dbo].[Admin] (
+    [AdminId]      INT            IDENTITY (1, 1) NOT NULL,
+    [FirstName]    NVARCHAR (100) NOT NULL,
+    [LastName]     NVARCHAR (100) NULL,
+    [Email]        NVARCHAR (50)  NOT NULL,
+    [Mobile]       NVARCHAR (20)  NULL,
+    [Address1]     NVARCHAR (500) NULL,
+    [Address2]     NVARCHAR (500) NULL,
+    [City]         NVARCHAR (100) NULL,
+    [RegionId]     INT            NULL,
+    [Zip]          NVARCHAR (10)  NULL,
+    [AltPhone]     NVARCHAR (20)  NULL,
+    [CreatedBy]    NVARCHAR (128) NOT NULL,
+    [CreatedDate]  DATETIME       DEFAULT (getdate()) NOT NULL,
+    [ModifiedDate] DATETIME       NULL,
+    [Status]       SMALLINT       NULL,
+    [RoleId]       INT            NULL,
+    [AspNetUserId] INT            NOT NULL,
+    [ModifiedBy]   INT            NULL,
+    [IsDeleted]    BIT            NULL,
+    PRIMARY KEY CLUSTERED ([AdminId] ASC),
+    CONSTRAINT [FK_Admin_AspNetUserId] FOREIGN KEY ([AspNetUserId]) REFERENCES [dbo].[AspNetUsers] ([Id]),
+    CONSTRAINT [FK_Admin_ModifiedBy] FOREIGN KEY ([ModifiedBy]) REFERENCES [dbo].[AspNetUsers] ([Id])
+);
+

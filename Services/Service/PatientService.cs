@@ -1,6 +1,8 @@
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Transactions;
+using CloudinaryDotNet.Actions;
 using Entity.DTO.Login;
 using Entity.DTO.Patient;
 using Entity.Models;
@@ -511,20 +513,20 @@ public class PatientService : IPatientService
         {
             foreach (var file in userUploadedDocuments.uploadedDocumentList)
             {
-                string path = Path.Combine(@"D:/Project/Angular/HalloDoc/Documents/" + "Request" + userUploadedDocuments.RequestId);
+                string path = Path.Combine(@"D:/Project/Angular/HalloDoc/Documents/Request" + userUploadedDocuments.RequestId);
 
                 // Create folder if not exist
                 if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
                 string fileNameWithPath = Path.Combine(path, file.FileName);
-
+                fileNameWithPath = fileNameWithPath.Replace("\\", "/");
                 RequestWiseFile newRequestWiseFile = new RequestWiseFile()
                 {
                     RequestId = userUploadedDocuments.RequestId,
                     FileName = fileNameWithPath,
                     CreatedDate = DateTime.Now,
                     IsDeleted = false
-                };  
+                };
                 using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
                 {
                     file.CopyToAsync(stream);
@@ -538,5 +540,17 @@ public class PatientService : IPatientService
 
         }
     }
+
+    public async Task<DownloadRWFResponse> DownloadDocuments(DownloadRWF downloadRWF)
+    {
+        try
+        {
+           return await _patientRepository.DownloadRequestWiseFileDocuments(downloadRWF);
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }   
 }
 

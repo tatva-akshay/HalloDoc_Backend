@@ -23,4 +23,5 @@ public interface IPatientService
     Task<PatientDashboard> GetDashboardContent(int userId);
     Task<SingleRequest> GetSingleRequestDetails(int requestId);
     Task UploadDocuments(UploadDocument userUploadedDocuments);
+    Task<DownloadRWFResponse> DownloadDocuments(DownloadRWF downloadRWF);
 }
