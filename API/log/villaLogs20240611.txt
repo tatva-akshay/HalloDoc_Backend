@@ -1,0 +1,353 @@
+2024-06-11 09:14:10.827 +05:30 [DBG] Connection id "0HN499CPIP9JU" received FIN.
+2024-06-11 09:14:10.836 +05:30 [DBG] Connection id "0HN499CPIP9JT" received FIN.
+2024-06-11 09:14:11.016 +05:30 [DBG] Entity Framework Core 8.0.6 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:8.0.6' with options: None
+2024-06-11 09:14:11.016 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7001/api/Login - application/json 26
+2024-06-11 09:14:11.016 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7001/api/Login - application/json 26
+2024-06-11 09:14:11.016 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7001/api/Login - application/json 26
+2024-06-11 09:14:11.020 +05:30 [DBG] 1 candidate(s) found for the request path '/api/Login'
+2024-06-11 09:14:11.020 +05:30 [DBG] Connection id "0HN499CPIP9JT" is closed. The last processed stream ID was 13.
+2024-06-11 09:14:11.020 +05:30 [DBG] 1 candidate(s) found for the request path '/api/Login'
+2024-06-11 09:14:11.020 +05:30 [DBG] 1 candidate(s) found for the request path '/api/Login'
+2024-06-11 09:14:11.021 +05:30 [DBG] Endpoint 'API.Controllers.AddController.Login (API)' with route pattern 'api/Login' is valid for the request path '/api/Login'
+2024-06-11 09:14:11.021 +05:30 [DBG] Endpoint 'API.Controllers.AddController.Login (API)' with route pattern 'api/Login' is valid for the request path '/api/Login'
+2024-06-11 09:14:11.021 +05:30 [DBG] Connection id "0HN499CPIP9JU" accepted.
+2024-06-11 09:14:11.021 +05:30 [DBG] Endpoint 'API.Controllers.AddController.Login (API)' with route pattern 'api/Login' is valid for the request path '/api/Login'
+2024-06-11 09:14:11.021 +05:30 [DBG] Request matched endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:11.021 +05:30 [DBG] Request matched endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:11.021 +05:30 [DBG] Request matched endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:11.021 +05:30 [DBG] Connection id "0HN499CPIP9JU" started.
+2024-06-11 09:14:11.021 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7001/api/Login - null null
+2024-06-11 09:14:11.021 +05:30 [DBG] Static files was skipped as the request already matched an endpoint.
+2024-06-11 09:14:11.021 +05:30 [DBG] 1 candidate(s) found for the request path '/api/Login'
+2024-06-11 09:14:11.021 +05:30 [DBG] Static files was skipped as the request already matched an endpoint.
+2024-06-11 09:14:11.021 +05:30 [DBG] Static files was skipped as the request already matched an endpoint.
+2024-06-11 09:14:11.022 +05:30 [DBG] Endpoint 'API.Controllers.AddController.Login (API)' with route pattern 'api/Login' is valid for the request path '/api/Login'
+2024-06-11 09:14:11.022 +05:30 [DBG] Connection id "0HN499CPIP9JT" sending RST because: "The client closed the connection."
+2024-06-11 09:14:11.022 +05:30 [DBG] Request matched endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:11.022 +05:30 [DBG] Connection id "0HN499CPIP9JV" received FIN.
+2024-06-11 09:14:11.022 +05:30 [DBG] Static files was skipped as the request already matched an endpoint.
+2024-06-11 09:14:11.022 +05:30 [DBG] The request has an origin header: 'http://localhost:4200'.
+2024-06-11 09:14:11.022 +05:30 [DBG] The request has an origin header: 'http://localhost:4200'.
+2024-06-11 09:14:11.022 +05:30 [INF] CORS policy execution successful.
+2024-06-11 09:14:11.022 +05:30 [DBG] The request has an origin header: 'http://localhost:4200'.
+2024-06-11 09:14:11.022 +05:30 [INF] CORS policy execution successful.
+2024-06-11 09:14:11.022 +05:30 [DBG] The request has an origin header: 'http://localhost:4200'.
+2024-06-11 09:14:11.022 +05:30 [INF] CORS policy execution successful.
+2024-06-11 09:14:11.022 +05:30 [INF] CORS policy execution successful.
+2024-06-11 09:14:11.022 +05:30 [DBG] AuthenticationScheme: Bearer was not authenticated.
+2024-06-11 09:14:11.050 +05:30 [INF] Executing endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:11.050 +05:30 [DBG] AuthenticationScheme: Bearer was not authenticated.
+2024-06-11 09:14:11.050 +05:30 [DBG] The request is a preflight request.
+2024-06-11 09:14:11.050 +05:30 [DBG] Connection id "0HN499CPIP9JV" accepted.
+2024-06-11 09:14:11.050 +05:30 [DBG] AuthenticationScheme: Bearer was not authenticated.
+2024-06-11 09:14:11.051 +05:30 [DBG] Connection id "0HN499CPIP9JV" started.
+2024-06-11 09:14:11.051 +05:30 [INF] Executing endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:11.051 +05:30 [INF] Executing endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:11.053 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7001/api/Login - 499 null null 30.1406ms
+2024-06-11 09:14:11.053 +05:30 [INF] Route matched with {action = "Login", controller = "Add"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(Entity.DTO.Login.LoginDTO) on controller API.Controllers.AddController (API).
+2024-06-11 09:14:11.053 +05:30 [INF] Route matched with {action = "Login", controller = "Add"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(Entity.DTO.Login.LoginDTO) on controller API.Controllers.AddController (API).
+2024-06-11 09:14:11.053 +05:30 [INF] Route matched with {action = "Login", controller = "Add"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(Entity.DTO.Login.LoginDTO) on controller API.Controllers.AddController (API).
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Connection id "0HN499CPIP9K0" received FIN.
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Connection id "0HN499CPIP9K0" accepted.
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Connection id "0HN499CPIP9K0" started.
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2024-06-11 09:14:11.053 +05:30 [DBG] Executing controller factory for controller API.Controllers.AddController (API)
+2024-06-11 09:14:11.053 +05:30 [DBG] Executing controller factory for controller API.Controllers.AddController (API)
+2024-06-11 09:14:11.054 +05:30 [DBG] Connection id "0HN499CPIP9K1" accepted.
+2024-06-11 09:14:11.054 +05:30 [DBG] Executing controller factory for controller API.Controllers.AddController (API)
+2024-06-11 09:14:11.054 +05:30 [DBG] Connection id "0HN499CPIP9K1" started.
+2024-06-11 09:14:11.054 +05:30 [DBG] Creating DbConnection.
+2024-06-11 09:14:11.054 +05:30 [DBG] Executed controller factory for controller API.Controllers.AddController (API)
+2024-06-11 09:14:11.054 +05:30 [DBG] Created DbConnection. (0ms).
+2024-06-11 09:14:11.054 +05:30 [DBG] Executed controller factory for controller API.Controllers.AddController (API)
+2024-06-11 09:14:11.054 +05:30 [DBG] Executed controller factory for controller API.Controllers.AddController (API)
+2024-06-11 09:14:11.054 +05:30 [DBG] Opening connection to database 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:14:11.054 +05:30 [DBG] Attempting to bind parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO' ...
+2024-06-11 09:14:11.054 +05:30 [DBG] Attempting to bind parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO' ...
+2024-06-11 09:14:11.054 +05:30 [DBG] Attempting to bind parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO' ...
+2024-06-11 09:14:11.054 +05:30 [DBG] Attempting to bind parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO' using the name '' in request data ...
+2024-06-11 09:14:11.054 +05:30 [DBG] Attempting to bind parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO' using the name '' in request data ...
+2024-06-11 09:14:11.054 +05:30 [DBG] Attempting to bind parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO' using the name '' in request data ...
+2024-06-11 09:14:11.054 +05:30 [DBG] Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+2024-06-11 09:14:11.054 +05:30 [DBG] Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+2024-06-11 09:14:11.054 +05:30 [DBG] Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+2024-06-11 09:14:11.121 +05:30 [DBG] Connection 0HN499CPIP9K1 established using the following protocol: "Tls13"
+2024-06-11 09:14:11.122 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7001/api/Login - null null
+2024-06-11 09:14:11.122 +05:30 [DBG] 1 candidate(s) found for the request path '/api/Login'
+2024-06-11 09:14:11.122 +05:30 [DBG] Endpoint 'API.Controllers.AddController.Login (API)' with route pattern 'api/Login' is valid for the request path '/api/Login'
+2024-06-11 09:14:11.122 +05:30 [DBG] Request matched endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:11.122 +05:30 [DBG] Static files was skipped as the request already matched an endpoint.
+2024-06-11 09:14:11.122 +05:30 [DBG] The request has an origin header: 'http://localhost:4200'.
+2024-06-11 09:14:11.122 +05:30 [INF] CORS policy execution successful.
+2024-06-11 09:14:11.122 +05:30 [DBG] The request is a preflight request.
+2024-06-11 09:14:11.122 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7001/api/Login - 204 null null 0.3646ms
+2024-06-11 09:14:11.124 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7001/api/Login - application/json 52
+2024-06-11 09:14:11.124 +05:30 [DBG] 1 candidate(s) found for the request path '/api/Login'
+2024-06-11 09:14:11.124 +05:30 [DBG] Endpoint 'API.Controllers.AddController.Login (API)' with route pattern 'api/Login' is valid for the request path '/api/Login'
+2024-06-11 09:14:11.124 +05:30 [DBG] Request matched endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:11.124 +05:30 [DBG] Static files was skipped as the request already matched an endpoint.
+2024-06-11 09:14:11.124 +05:30 [DBG] The request has an origin header: 'http://localhost:4200'.
+2024-06-11 09:14:11.124 +05:30 [INF] CORS policy execution successful.
+2024-06-11 09:14:11.124 +05:30 [DBG] AuthenticationScheme: Bearer was not authenticated.
+2024-06-11 09:14:11.124 +05:30 [INF] Executing endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:11.125 +05:30 [INF] Route matched with {action = "Login", controller = "Add"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(Entity.DTO.Login.LoginDTO) on controller API.Controllers.AddController (API).
+2024-06-11 09:14:11.125 +05:30 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2024-06-11 09:14:11.125 +05:30 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2024-06-11 09:14:11.125 +05:30 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2024-06-11 09:14:11.125 +05:30 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2024-06-11 09:14:11.125 +05:30 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2024-06-11 09:14:11.125 +05:30 [DBG] Executing controller factory for controller API.Controllers.AddController (API)
+2024-06-11 09:14:11.125 +05:30 [DBG] Executed controller factory for controller API.Controllers.AddController (API)
+2024-06-11 09:14:11.125 +05:30 [DBG] Attempting to bind parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO' ...
+2024-06-11 09:14:11.125 +05:30 [DBG] Attempting to bind parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO' using the name '' in request data ...
+2024-06-11 09:14:11.125 +05:30 [DBG] Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+2024-06-11 09:14:11.125 +05:30 [DBG] Connection id "0HN499CPIP9K1", Request id "0HN499CPIP9K1:00000003": started reading request body.
+2024-06-11 09:14:11.125 +05:30 [DBG] Connection id "0HN499CPIP9K1", Request id "0HN499CPIP9K1:00000003": done reading request body.
+2024-06-11 09:14:11.125 +05:30 [DBG] JSON input formatter succeeded, deserializing to type 'Entity.DTO.Login.LoginDTO'
+2024-06-11 09:14:11.125 +05:30 [DBG] Done attempting to bind parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO'.
+2024-06-11 09:14:11.125 +05:30 [DBG] Done attempting to bind parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO'.
+2024-06-11 09:14:11.125 +05:30 [DBG] Attempting to validate the bound parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO' ...
+2024-06-11 09:14:11.125 +05:30 [DBG] Done attempting to validate the bound parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO'.
+2024-06-11 09:14:11.126 +05:30 [DBG] Entity Framework Core 8.0.6 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:8.0.6' with options: None
+2024-06-11 09:14:11.126 +05:30 [DBG] Creating DbConnection.
+2024-06-11 09:14:11.126 +05:30 [DBG] Created DbConnection. (0ms).
+2024-06-11 09:14:11.126 +05:30 [DBG] Opening connection to database 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:14:11.147 +05:30 [DBG] Opened connection to database 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:14:11.147 +05:30 [DBG] Creating DbCommand for 'ExecuteReader'.
+2024-06-11 09:14:11.147 +05:30 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2024-06-11 09:14:11.147 +05:30 [DBG] Initialized DbCommand for 'ExecuteReader' (0ms).
+2024-06-11 09:14:11.147 +05:30 [DBG] Executing DbCommand [Parameters=[@__Email_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a0].[Email], [a0].[PasswordHash] AS [Password], CONVERT(varchar(11), [a].[RoleId]) AS [Role]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetUsers] AS [a0] ON [a].[UserId] = [a0].[Id]
+WHERE [a0].[Email] = @__Email_0
+2024-06-11 09:14:11.150 +05:30 [DBG] Opened connection to database 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:14:11.150 +05:30 [DBG] Creating DbCommand for 'ExecuteReader'.
+2024-06-11 09:14:11.150 +05:30 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2024-06-11 09:14:11.150 +05:30 [DBG] Initialized DbCommand for 'ExecuteReader' (0ms).
+2024-06-11 09:14:11.150 +05:30 [DBG] Executing DbCommand [Parameters=[@__Email_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a0].[Email], [a0].[PasswordHash] AS [Password], CONVERT(varchar(11), [a].[RoleId]) AS [Role]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetUsers] AS [a0] ON [a].[UserId] = [a0].[Id]
+WHERE [a0].[Email] = @__Email_0
+2024-06-11 09:14:11.184 +05:30 [INF] Executed DbCommand (37ms) [Parameters=[@__Email_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a0].[Email], [a0].[PasswordHash] AS [Password], CONVERT(varchar(11), [a].[RoleId]) AS [Role]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetUsers] AS [a0] ON [a].[UserId] = [a0].[Id]
+WHERE [a0].[Email] = @__Email_0
+2024-06-11 09:14:11.184 +05:30 [DBG] Closing data reader to 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:14:11.184 +05:30 [DBG] A data reader for 'HalloDoc' on server 'PCE114\SQL2019' is being disposed after spending 0ms reading results.
+2024-06-11 09:14:11.184 +05:30 [DBG] Closing connection to database 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:14:11.185 +05:30 [DBG] Closed connection to database 'HalloDoc' on server 'PCE114\SQL2019' (0ms).
+2024-06-11 09:14:11.185 +05:30 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2024-06-11 09:14:11.185 +05:30 [DBG] No information found on request to perform content negotiation.
+2024-06-11 09:14:11.185 +05:30 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2024-06-11 09:14:11.185 +05:30 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2024-06-11 09:14:11.185 +05:30 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2024-06-11 09:14:11.185 +05:30 [INF] Executing NotFoundObjectResult, writing value of type 'Entity.DTO.APIResponse'.
+2024-06-11 09:14:11.185 +05:30 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2024-06-11 09:14:11.253 +05:30 [INF] Executed DbCommand (104ms) [Parameters=[@__Email_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a0].[Email], [a0].[PasswordHash] AS [Password], CONVERT(varchar(11), [a].[RoleId]) AS [Role]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetUsers] AS [a0] ON [a].[UserId] = [a0].[Id]
+WHERE [a0].[Email] = @__Email_0
+2024-06-11 09:14:11.185 +05:30 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2024-06-11 09:14:11.403 +05:30 [INF] Executed action API.Controllers.AddController.Login (API) in 349.4352ms
+2024-06-11 09:14:11.403 +05:30 [INF] Executed action API.Controllers.AddController.Login (API) in 349.5161ms
+2024-06-11 09:14:11.403 +05:30 [INF] Executed action API.Controllers.AddController.Login (API) in 349.5475ms
+2024-06-11 09:14:12.387 +05:30 [DBG] Connection id "0HN499CPIP9K0" stopped.
+2024-06-11 09:14:12.387 +05:30 [DBG] Closing data reader to 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:14:12.387 +05:30 [DBG] Connection id "0HN499CPIP9JV" stopped.
+2024-06-11 09:14:11.185 +05:30 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2024-06-11 09:14:12.387 +05:30 [DBG] Connection id "0HN499CPIP9K0" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-06-11 09:14:11.220 +05:30 [INF] Executed action API.Controllers.AddController.Login (API) in 37517783.0897ms
+2024-06-11 09:14:12.387 +05:30 [DBG] Connection id "0HN499CPIP9JV" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-06-11 09:14:12.387 +05:30 [DBG] A data reader for 'HalloDoc' on server 'PCE114\SQL2019' is being disposed after spending 0ms reading results.
+2024-06-11 09:14:12.388 +05:30 [DBG] Connection id "0HN499CPIP9JU" stopped.
+2024-06-11 09:14:12.388 +05:30 [DBG] Connection id "0HN499CPIP9JU" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-06-11 09:14:12.388 +05:30 [DBG] Closing connection to database 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:14:12.388 +05:30 [INF] Executed endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:12.388 +05:30 [DBG] Closed connection to database 'HalloDoc' on server 'PCE114\SQL2019' (0ms).
+2024-06-11 09:14:12.388 +05:30 [DBG] 'ApplicationDbContext' disposed.
+2024-06-11 09:14:12.388 +05:30 [DBG] Disposing connection to database 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:14:12.388 +05:30 [DBG] Disposed connection to database '' on server '' (0ms).
+2024-06-11 09:14:12.388 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7001/api/Login - 499 null application/json; charset=utf-8 37518951.8103ms
+2024-06-11 09:14:12.449 +05:30 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2024-06-11 09:14:12.449 +05:30 [DBG] No information found on request to perform content negotiation.
+2024-06-11 09:14:12.449 +05:30 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2024-06-11 09:14:12.449 +05:30 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2024-06-11 09:14:12.449 +05:30 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2024-06-11 09:14:12.449 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Entity.DTO.APIResponse'.
+2024-06-11 09:14:12.449 +05:30 [INF] Executed action API.Controllers.AddController.Login (API) in 1325.2764ms
+2024-06-11 09:14:12.449 +05:30 [INF] Executed endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:12.449 +05:30 [DBG] 'ApplicationDbContext' disposed.
+2024-06-11 09:14:12.449 +05:30 [DBG] Disposing connection to database 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:14:12.449 +05:30 [DBG] Disposed connection to database '' on server '' (0ms).
+2024-06-11 09:14:12.449 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7001/api/Login - 400 null application/json; charset=utf-8 1325.9784ms
+2024-06-11 09:14:12.464 +05:30 [INF] Executed endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:12.464 +05:30 [INF] Executed endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:12.464 +05:30 [INF] Executed endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:14:12.470 +05:30 [DBG] The request was aborted by the client.
+2024-06-11 09:14:12.470 +05:30 [DBG] The request was aborted by the client.
+2024-06-11 09:14:12.470 +05:30 [DBG] The request was aborted by the client.
+2024-06-11 09:14:12.470 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7001/api/Login - 499 null null 1454.8628ms
+2024-06-11 09:14:12.470 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7001/api/Login - 499 null null 1454.4018ms
+2024-06-11 09:14:12.470 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7001/api/Login - 499 null null 1454.8629ms
+2024-06-11 09:14:12.470 +05:30 [DBG] The connection queue processing loop for 0HN499CPIP9JT completed.
+2024-06-11 09:14:12.470 +05:30 [DBG] Connection id "0HN499CPIP9JT" stopped.
+2024-06-11 09:16:02.250 +05:30 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2024-06-11 09:16:02.396 +05:30 [DBG] Hosting starting
+2024-06-11 09:16:02.594 +05:30 [INF] User profile is available. Using 'C:\Users\pce114\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-06-11 09:16:02.598 +05:30 [DBG] Reading data from file 'C:\Users\pce114\AppData\Local\ASP.NET\DataProtection-Keys\key-052f58ee-99e6-48bd-8c2d-93b8928ef2c6.xml'.
+2024-06-11 09:16:02.633 +05:30 [DBG] Reading data from file 'C:\Users\pce114\AppData\Local\ASP.NET\DataProtection-Keys\key-f1baa3f3-18eb-4aa9-be07-d7d33ca31b73.xml'.
+2024-06-11 09:16:02.664 +05:30 [DBG] Found key {052f58ee-99e6-48bd-8c2d-93b8928ef2c6}.
+2024-06-11 09:16:02.666 +05:30 [DBG] Found key {f1baa3f3-18eb-4aa9-be07-d7d33ca31b73}.
+2024-06-11 09:16:02.669 +05:30 [DBG] Considering key {f1baa3f3-18eb-4aa9-be07-d7d33ca31b73} with expiration date 2024-07-29 03:59:57Z as default key.
+2024-06-11 09:16:02.670 +05:30 [DBG] Forwarded activator type request from Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor, Microsoft.AspNetCore.DataProtection, Version=7.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60 to Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor, Microsoft.AspNetCore.DataProtection, Culture=neutral, PublicKeyToken=adb9793829ddae60
+2024-06-11 09:16:02.671 +05:30 [DBG] Decrypting secret element using Windows DPAPI.
+2024-06-11 09:16:02.672 +05:30 [DBG] Forwarded activator type request from Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Version=7.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60 to Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Culture=neutral, PublicKeyToken=adb9793829ddae60
+2024-06-11 09:16:02.674 +05:30 [DBG] Opening CNG algorithm 'AES' from provider 'null' with chaining mode CBC.
+2024-06-11 09:16:02.675 +05:30 [DBG] Opening CNG algorithm 'SHA256' from provider 'null' with HMAC.
+2024-06-11 09:16:02.675 +05:30 [DBG] Using key {f1baa3f3-18eb-4aa9-be07-d7d33ca31b73} as the default key.
+2024-06-11 09:16:02.676 +05:30 [DBG] Key ring with default key {f1baa3f3-18eb-4aa9-be07-d7d33ca31b73} was loaded during application startup.
+2024-06-11 09:16:04.063 +05:30 [INF] Now listening on: https://localhost:7001
+2024-06-11 09:16:04.063 +05:30 [INF] Now listening on: http://localhost:7002
+2024-06-11 09:16:04.063 +05:30 [DBG] Loaded hosting startup assembly API
+2024-06-11 09:16:04.063 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2024-06-11 09:16:04.063 +05:30 [INF] Hosting environment: Development
+2024-06-11 09:16:04.063 +05:30 [INF] Content root path: D:\Project\Angular\HalloDoc\Backend\API
+2024-06-11 09:16:04.063 +05:30 [DBG] Hosting started
+2024-06-11 09:16:07.699 +05:30 [DBG] Connection id "0HN49P43EDP6V" accepted.
+2024-06-11 09:16:07.700 +05:30 [DBG] Connection id "0HN49P43EDP6V" started.
+2024-06-11 09:16:07.794 +05:30 [DBG] Connection 0HN49P43EDP6V established using the following protocol: "Tls13"
+2024-06-11 09:16:07.900 +05:30 [INF] Request starting HTTP/2 OPTIONS https://localhost:7001/api/Login - null null
+2024-06-11 09:16:07.901 +05:30 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2024-06-11 09:16:07.967 +05:30 [DBG] 1 candidate(s) found for the request path '/api/Login'
+2024-06-11 09:16:07.969 +05:30 [DBG] Endpoint 'API.Controllers.AddController.Login (API)' with route pattern 'api/Login' is valid for the request path '/api/Login'
+2024-06-11 09:16:07.969 +05:30 [DBG] Request matched endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:16:07.978 +05:30 [DBG] Static files was skipped as the request already matched an endpoint.
+2024-06-11 09:16:07.979 +05:30 [DBG] The request has an origin header: 'http://localhost:4200'.
+2024-06-11 09:16:07.979 +05:30 [INF] CORS policy execution successful.
+2024-06-11 09:16:07.979 +05:30 [DBG] The request is a preflight request.
+2024-06-11 09:16:07.981 +05:30 [INF] Request finished HTTP/2 OPTIONS https://localhost:7001/api/Login - 204 null null 82.0424ms
+2024-06-11 09:16:08.043 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7001/api/Login - application/json 52
+2024-06-11 09:16:08.044 +05:30 [DBG] 1 candidate(s) found for the request path '/api/Login'
+2024-06-11 09:16:08.044 +05:30 [DBG] Endpoint 'API.Controllers.AddController.Login (API)' with route pattern 'api/Login' is valid for the request path '/api/Login'
+2024-06-11 09:16:08.044 +05:30 [DBG] Request matched endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:16:08.045 +05:30 [DBG] Static files was skipped as the request already matched an endpoint.
+2024-06-11 09:16:08.045 +05:30 [DBG] The request has an origin header: 'http://localhost:4200'.
+2024-06-11 09:16:08.045 +05:30 [INF] CORS policy execution successful.
+2024-06-11 09:16:08.742 +05:30 [DBG] AuthenticationScheme: Bearer was not authenticated.
+2024-06-11 09:16:08.743 +05:30 [INF] Executing endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:16:08.756 +05:30 [INF] Route matched with {action = "Login", controller = "Add"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(Entity.DTO.Login.LoginDTO) on controller API.Controllers.AddController (API).
+2024-06-11 09:16:08.756 +05:30 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2024-06-11 09:16:08.757 +05:30 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2024-06-11 09:16:08.757 +05:30 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2024-06-11 09:16:08.758 +05:30 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2024-06-11 09:16:08.758 +05:30 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2024-06-11 09:16:08.758 +05:30 [DBG] Executing controller factory for controller API.Controllers.AddController (API)
+2024-06-11 09:16:09.233 +05:30 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2024-06-11 09:16:09.257 +05:30 [DBG] Executed controller factory for controller API.Controllers.AddController (API)
+2024-06-11 09:16:09.294 +05:30 [DBG] Attempting to bind parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO' ...
+2024-06-11 09:16:09.295 +05:30 [DBG] Attempting to bind parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO' using the name '' in request data ...
+2024-06-11 09:16:09.296 +05:30 [DBG] Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+2024-06-11 09:16:09.305 +05:30 [DBG] Connection id "0HN49P43EDP6V", Request id "0HN49P43EDP6V:00000003": started reading request body.
+2024-06-11 09:16:09.305 +05:30 [DBG] Connection id "0HN49P43EDP6V", Request id "0HN49P43EDP6V:00000003": done reading request body.
+2024-06-11 09:16:09.307 +05:30 [DBG] JSON input formatter succeeded, deserializing to type 'Entity.DTO.Login.LoginDTO'
+2024-06-11 09:16:09.307 +05:30 [DBG] Done attempting to bind parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO'.
+2024-06-11 09:16:09.307 +05:30 [DBG] Done attempting to bind parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO'.
+2024-06-11 09:16:09.307 +05:30 [DBG] Attempting to validate the bound parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO' ...
+2024-06-11 09:16:09.310 +05:30 [DBG] Done attempting to validate the bound parameter 'loginDetails' of type 'Entity.DTO.Login.LoginDTO'.
+2024-06-11 09:16:09.957 +05:30 [DBG] The index {'UserId'} was not created on entity type 'AspNetUserRole' as the properties are already covered by the index {'UserId', 'RoleId'}.
+2024-06-11 09:16:10.194 +05:30 [DBG] Entity Framework Core 8.0.6 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:8.0.6' with options: None
+2024-06-11 09:16:10.464 +05:30 [DBG] Compiling query expression: 
+'DbSet<AspNetUserRole>()
+    .Include(a => a.User)
+    .Where(a => a.User.Email == __Email_0)
+    .Select(a => new LoginUserStatus{ 
+        Email = a.User.Email, 
+        Password = a.User.PasswordHash, 
+        Role = a.RoleId.ToString() 
+    }
+    )
+    .FirstOrDefault()'
+2024-06-11 09:16:10.584 +05:30 [DBG] Generated query execution expression: 
+'queryContext => ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync<LoginUserStatus>(
+    asyncEnumerable: new SingleQueryingEnumerable<LoginUserStatus>(
+        (RelationalQueryContext)queryContext, 
+        RelationalCommandCache.QueryExpression(
+            Projection Mapping:
+                Email -> 0
+                Password -> 1
+                Role -> 2
+            SELECT TOP(1) a0.Email, a0.PasswordHash AS Password, CONVERT(varchar(11), a.RoleId) AS Role
+            FROM AspNetUserRoles AS a
+            INNER JOIN AspNetUsers AS a0 ON a.UserId == a0.Id
+            WHERE a0.Email == @__Email_0), 
+        null, 
+        Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, LoginUserStatus>, 
+        Entity.DataContext.ApplicationDbContext, 
+        False, 
+        False, 
+        True
+    ), 
+    cancellationToken: queryContext.CancellationToken)'
+2024-06-11 09:16:10.607 +05:30 [DBG] Creating DbConnection.
+2024-06-11 09:16:10.619 +05:30 [DBG] Created DbConnection. (10ms).
+2024-06-11 09:16:10.620 +05:30 [DBG] Opening connection to database 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:16:11.677 +05:30 [DBG] Opened connection to database 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:16:11.681 +05:30 [DBG] Creating DbCommand for 'ExecuteReader'.
+2024-06-11 09:16:11.685 +05:30 [DBG] Created DbCommand for 'ExecuteReader' (2ms).
+2024-06-11 09:16:11.689 +05:30 [DBG] Initialized DbCommand for 'ExecuteReader' (8ms).
+2024-06-11 09:16:11.696 +05:30 [DBG] Executing DbCommand [Parameters=[@__Email_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a0].[Email], [a0].[PasswordHash] AS [Password], CONVERT(varchar(11), [a].[RoleId]) AS [Role]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetUsers] AS [a0] ON [a].[UserId] = [a0].[Id]
+WHERE [a0].[Email] = @__Email_0
+2024-06-11 09:16:11.845 +05:30 [INF] Executed DbCommand (152ms) [Parameters=[@__Email_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a0].[Email], [a0].[PasswordHash] AS [Password], CONVERT(varchar(11), [a].[RoleId]) AS [Role]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetUsers] AS [a0] ON [a].[UserId] = [a0].[Id]
+WHERE [a0].[Email] = @__Email_0
+2024-06-11 09:16:11.861 +05:30 [DBG] Closing data reader to 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:16:11.866 +05:30 [DBG] A data reader for 'HalloDoc' on server 'PCE114\SQL2019' is being disposed after spending 18ms reading results.
+2024-06-11 09:16:11.868 +05:30 [DBG] Closing connection to database 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:16:11.871 +05:30 [DBG] Closed connection to database 'HalloDoc' on server 'PCE114\SQL2019' (3ms).
+2024-06-11 09:16:12.016 +05:30 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2024-06-11 09:16:12.017 +05:30 [DBG] No information found on request to perform content negotiation.
+2024-06-11 09:16:12.017 +05:30 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2024-06-11 09:16:12.017 +05:30 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2024-06-11 09:16:12.017 +05:30 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2024-06-11 09:16:12.017 +05:30 [INF] Executing OkObjectResult, writing value of type 'Entity.DTO.APIResponse'.
+2024-06-11 09:16:12.032 +05:30 [INF] Executed action API.Controllers.AddController.Login (API) in 3274.4371ms
+2024-06-11 09:16:12.033 +05:30 [INF] Executed endpoint 'API.Controllers.AddController.Login (API)'
+2024-06-11 09:16:12.035 +05:30 [DBG] 'ApplicationDbContext' disposed.
+2024-06-11 09:16:12.037 +05:30 [DBG] Disposing connection to database 'HalloDoc' on server 'PCE114\SQL2019'.
+2024-06-11 09:16:12.038 +05:30 [DBG] Disposed connection to database '' on server '' (0ms).
+2024-06-11 09:16:12.038 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7001/api/Login - 200 null application/json; charset=utf-8 3997.0346ms

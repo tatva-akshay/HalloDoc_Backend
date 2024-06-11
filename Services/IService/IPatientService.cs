@@ -24,4 +24,5 @@ public interface IPatientService
     Task<SingleRequest> GetSingleRequestDetails(int requestId);
     Task UploadDocuments(UploadDocument userUploadedDocuments);
     Task<DownloadRWFResponse> DownloadDocuments(DownloadRWF downloadRWF);
+    Task<PatientDetails> GetForMePatientRequestData(string email);
 }

@@ -233,7 +233,7 @@ public class PatientService : IPatientService
                     };
                     using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
                     {
-                        file.CopyToAsync(stream);
+                        await file.CopyToAsync(stream);
                     }
                     await _tableRepository.AddRequestWiseFile(newRequestWiseFile);
                 }
@@ -376,7 +376,7 @@ public class PatientService : IPatientService
                     };
                     using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
                     {
-                        file.CopyToAsync(stream);
+                        await file.CopyToAsync(stream);
                     }
                     await _tableRepository.AddRequestWiseFile(newRequestWiseFile);
                 }
@@ -471,9 +471,9 @@ public class PatientService : IPatientService
 
             if (patientDetails.Bdate != null)
             {
-                user.IntDate = int.Parse(patientDetails.Bdate.Value.Day.ToString());
-                user.IntYear = int.Parse(patientDetails.Bdate.Value.Year.ToString());
-                user.StrMonth = patientDetails.Bdate.Value.Month.ToString();
+                user.IntDate = int.Parse(patientDetails.Bdate.Day.ToString());
+                user.IntYear = int.Parse(patientDetails.Bdate.Year.ToString());
+                user.StrMonth = patientDetails.Bdate.Month.ToString();
             }
             await _tableRepository.SaveChanges();
         }
@@ -529,7 +529,7 @@ public class PatientService : IPatientService
                 };
                 using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
                 {
-                    file.CopyToAsync(stream);
+                    await file.CopyToAsync(stream);
                 }
                 await _tableRepository.AddRequestWiseFile(newRequestWiseFile);
             }
@@ -546,6 +546,31 @@ public class PatientService : IPatientService
         try
         {
            return await _patientRepository.DownloadRequestWiseFileDocuments(downloadRWF);
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }   
+    public async Task<PatientDetails> GetForMePatientRequestData(string email)
+    {
+        try
+        {
+            PatientDetails patientDetails = new PatientDetails();
+            PatientProfile oldPatientProfile = await GetPatientProfile(email);
+
+            patientDetails.FirstName = oldPatientProfile.FirstName;
+            patientDetails.LastName = oldPatientProfile.LastName;
+            patientDetails.Email = email;
+            patientDetails.Bdate = oldPatientProfile.Bdate;
+            patientDetails.Mobile = oldPatientProfile.Mobile;
+            patientDetails.Street = oldPatientProfile.Street;
+            patientDetails.City = oldPatientProfile.City;
+            patientDetails.State = oldPatientProfile.State;
+            patientDetails.ZipCode = decimal.Parse(oldPatientProfile.ZipCode);
+            patientDetails.regionId = oldPatientProfile.regionId;
+            
+            return patientDetails;
         }
         catch (Exception ex)
         {

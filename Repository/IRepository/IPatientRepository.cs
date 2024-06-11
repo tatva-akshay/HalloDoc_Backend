@@ -17,4 +17,5 @@ public interface IPatientRepository
     Task<PatientDashboard> GetDashboardContent(int userId);
     Task<SingleRequest> GetSingleRequestDetails(int requestId);
     Task<DownloadRWFResponse> DownloadRequestWiseFileDocuments(DownloadRWF downloadRWF);
+    // Task<PatientDetails> GetForMeRequestDetails();
 }

@@ -27,6 +27,8 @@ public class PatientController : ControllerBase
         _response = new();
     }
 
+    // #frontend #backend things which are left behind or future purpose
+
     //this link will be work for the limited time with token.
     //on page hit check token from table wether that is valid period for time or not!
     [HttpPost("CreateAccount")]
@@ -110,6 +112,8 @@ public class PatientController : ControllerBase
         }
     }
 
+    //this list will be managed at front end for the list binding to specific model.
+    // #fronend
     [HttpGet("GetRegionList")]
     public async Task<ActionResult<APIResponse>> getAllRegionList()
     {
@@ -202,9 +206,9 @@ public class PatientController : ControllerBase
                 _response.IsSuccess = true;
 
                 // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "")
-                string createLink = "";
-                string Body = $"{createLink}";
-                string Subject = "Create Account";
+                string createLink = ""; //here will be create account page Url
+                string Body = $"";
+                string Subject = "";
                 if (!isExists)
                 {
                     Body = $"You can Create Your Account By .Your Request Has been Successfully Created! by {requestData.YFirstName} ";
@@ -359,7 +363,7 @@ public class PatientController : ControllerBase
             _response.IsSuccess = true;
             _response.Result = "uploaded Successfully";
             return Ok(_response);
-        } 
+        }
         catch (Exception ex)
         {
             _response.HttpStatusCode = HttpStatusCode.BadRequest;
@@ -376,20 +380,22 @@ public class PatientController : ControllerBase
         try
         {
             //login to download document it will be done after frontend
-            
-             var zipMemoryStream = new MemoryStream();
+
+            var zipMemoryStream = new MemoryStream();
             DownloadRWFResponse downloadRWFResponse = await _patientService.DownloadDocuments(downloadRWF);
 
             using (var zipArchive = new ZipArchive(zipMemoryStream, ZipArchiveMode.Create, true))
             {
                 foreach (var file in downloadRWFResponse.RequestWiseFileList)
                 {
-                    var filePath = Path.Combine("wwwroot/Documents", file);
-                    var entry = zipArchive.CreateEntry(file);
+                    string filePath = file.Replace("/","\\");
+                    string[] fileString = file.Split("/").ToArray();    
+                    string fileName = fileString[fileString.Length - 1];
+                    var entry = zipArchive.CreateEntry(fileName);
                     using (var entryStream = entry.Open())
                     using (var fileStream = new FileStream(filePath, FileMode.Open))
                     {
-                        fileStream.CopyTo(entryStream);
+                        await fileStream.CopyToAsync(entryStream);
                     }
                 }
             }
@@ -399,8 +405,8 @@ public class PatientController : ControllerBase
             _response.HttpStatusCode = HttpStatusCode.OK;
             _response.IsSuccess = true;
             _response.Result = "uploaded Successfully";
-            return Ok( _response);
-        } 
+            return Ok(_response);
+        }
         catch (Exception ex)
         {
             _response.HttpStatusCode = HttpStatusCode.BadRequest;
@@ -410,38 +416,19 @@ public class PatientController : ControllerBase
         }
     }
 
-    [HttpGet]
-    public async Task<ActionResult<APIResponse>> ForMeRequestGetData(){
+    // it will take user email and will get data from userTable
+    [CustomAuthorize("3")]
+    [HttpGet("ForMeRequestGetData")]
+    public async Task<ActionResult<APIResponse>> ForMeRequestGetData(string userEmail)
+    {
         try
         {
-            if (ModelState.IsValid)
-            {
-                // int requestId = await _patientService.CreateRequest(requestData);
-                // if (requestId == 0)
-                // {
-                //     _response.HttpStatusCode = HttpStatusCode.BadRequest;
-                //     _response.IsSuccess = false;
-                //     _response.Error = "Something Went Wrong!";
-                //     return BadRequest(_response);
-                // }
-                // _response.HttpStatusCode = HttpStatusCode.Created;
-                // _response.Result = "Reqeust Created SuccessFully";
-                // _response.IsSuccess = true;
-
-                // // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "")
-                // string Body = $"{requestData.Email} Your Request Has been Successfully Created! ";
-                // string Subject = "";
-                // await _communicationService.GenericSendEmail(requestData.Email, Body, Subject, 3, requestId, 0, "");
-
-                // return Ok(_response);
-            }
-            else
-            {
-                _response.HttpStatusCode = HttpStatusCode.BadRequest;
-                _response.IsSuccess = false;
-                _response.Error = "Model State Invalid!";
-                return BadRequest(_response);
-            }
+            //Email will must be there so no nullable checks!!!
+            PatientDetails oldPatientDetails = await _patientService.GetForMePatientRequestData(userEmail);
+            _response.HttpStatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            _response.Result = oldPatientDetails;
+            return Ok(_response);
         }
         catch (BadHttpRequestException ex)
         {
@@ -459,8 +446,10 @@ public class PatientController : ControllerBase
         }
     }
 
+    [CustomAuthorize("3")]
     [HttpPost("ForMeRequest")]
-    public async Task<ActionResult<APIResponse>> ForMeRequest(PatientDetails requestData){
+    public async Task<ActionResult<APIResponse>> ForMeRequest(PatientDetails requestData)
+    {
         try
         {
             if (ModelState.IsValid)
@@ -508,5 +497,73 @@ public class PatientController : ControllerBase
         }
     }
 
+    //For somoneElse Request
+    //Requestor will be always type of and Relation family/friend and the relation and requested by will be get by email stored in session at frontend!
+    //YFirstName required Field, also requestType = 2 will be also assigned at front end
+    //there will be getAllregion controller will be called to get the region list #frontend
+    [CustomAuthorize("3")]
+    [HttpPost]
+    public async Task<ActionResult<APIResponse>> ForSomeOneElseRequest(OtherRequest someOneElseRequestDetails)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                int requestId = 0;
+                bool isExists = false;
+                (requestId, isExists) = await _patientService.OtherRequests(someOneElseRequestDetails);
+                if (requestId == 0)
+                {
+                    _response.HttpStatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
+                    _response.Error = "Something Went Wrong!";
+                    return BadRequest(_response);
+                }
+                _response.HttpStatusCode = HttpStatusCode.Created;
+                _response.Result = "Reqeust Created SuccessFully";
+                _response.IsSuccess = true;
+
+                // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "")
+                string createLink = ""; //here will be create account page Url
+                string Body = $"";
+                string Subject = "";
+                if (!isExists)
+                {
+                    Body = $"You can Create Your Account By .Your Request Has been Successfully Created! by {someOneElseRequestDetails.YFirstName} ";
+                    Subject = "Create Account";
+                    await _communicationService.GenericSendEmail(someOneElseRequestDetails.Email, Body, Subject, 3, 0, 1, "");
+                }
+                else
+                {
+                    Body = $"Your Request Has been Successfully Created! by {someOneElseRequestDetails.YFirstName} ";
+                    Subject = "New Request";
+                    await _communicationService.GenericSendEmail(someOneElseRequestDetails.Email, Body, Subject, 3, requestId, 0, "");
+                }
+                return Ok(_response);
+            }
+            else
+            {
+                _response.HttpStatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.Error = "Model State Invalid!";
+                return BadRequest(_response);
+            }
+        }
+        catch (BadHttpRequestException ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Error = ex.ToString();
+            return BadRequest(_response);
+        }
+        catch (Exception ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Error = ex.ToString();
+            return BadRequest(_response);
+        }
+    }
     //Review Agreement
+
 }

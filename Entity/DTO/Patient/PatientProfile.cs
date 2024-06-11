@@ -21,7 +21,7 @@ public class PatientProfile
     [StringLength(20)]
     public string? Mobile { get; set; }
 
-    public DateTime? Bdate { get; set; }
+    public DateTime Bdate { get; set; }
 
     [StringLength(100)]
     public string? Street { get; set; }

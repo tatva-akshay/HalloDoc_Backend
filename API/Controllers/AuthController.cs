@@ -1,6 +1,7 @@
 using System.Net;
 using Entity.DTO;
 using Entity.DTO.Login;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Services.IService;
@@ -20,8 +21,9 @@ public class AddController : ControllerBase
         _authService = authService;
         _response = new();
     }
-    
+
     [HttpPost]
+    [EnableCors("corsPolicy")]
     public async Task<IActionResult> Login(LoginDTO loginDetails)
     {
         try
@@ -34,20 +36,24 @@ public class AddController : ControllerBase
                 _response.HttpStatusCode = HttpStatusCode.NotFound;
                 _response.Error = "User Does not Exist!";
                 _response.IsSuccess = false;
-                return NotFound(_response);
+                // return NotFound(_response);
+                return Ok(_response);
             }
-            if(!userStatus.IsUserCreated){
+            if (!userStatus.IsUserCreated)
+            {
                 _response.HttpStatusCode = HttpStatusCode.BadRequest;
-                _response.Error = "Create/Reset Yout Password!";
+                _response.Error = "Create/Reset Your Password!";
                 _response.IsSuccess = false;
-                return BadRequest(_response);
+                // return BadRequest(_response);
+                return Ok(_response);
             }
             if (!userStatus.PasswordMatched)
             {
                 _response.HttpStatusCode = HttpStatusCode.Forbidden;
                 _response.Error = "Invalid Password!";
                 _response.IsSuccess = false;
-                return BadRequest(_response);
+                // return BadRequest(_response);
+                return Ok(_response);
             }
 
             LoginUserDTO userEmailRole = new()
