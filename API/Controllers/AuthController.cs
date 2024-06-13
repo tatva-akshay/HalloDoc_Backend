@@ -24,7 +24,7 @@ public class AddController : ControllerBase
 
     [HttpPost]
     [EnableCors("corsPolicy")]
-    public async Task<IActionResult> Login(LoginDTO loginDetails)
+    public async Task<ActionResult<APIResponse>> Login(LoginDTO loginDetails)
     {
         try
         {
@@ -79,7 +79,8 @@ public class AddController : ControllerBase
             _response.HttpStatusCode = HttpStatusCode.Forbidden;
             _response.Error = ex.ToString();
             _response.IsSuccess = false;
-            return BadRequest(_response);
+            return Ok(_response);
         }
-    }
+    } 
+
 }

@@ -63,9 +63,12 @@ public class TableRepository : ITableRepository
 
 
     // Get Methods
-    public async Task<List<Region>> getAllRegionList()
+    public async Task<List<RegionsDropDown>> getAllRegionList()
     {
-        return await _context.Regions.ToListAsync();
+        return await _context.Regions.Select(a=> new RegionsDropDown(){
+            Name = a.Name,
+            RegionId = a.RegionId
+        }).ToListAsync();
     }
 
     public async Task<List<RegionsDropDown>> GetRegionsDropDowns(){

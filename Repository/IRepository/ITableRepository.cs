@@ -17,6 +17,6 @@ public interface ITableRepository
     Task AddPasswordReset(PasswordReset newPasswordReset);
 
     // Get Methods
-    Task<List<Region>> getAllRegionList(); 
+    Task<List<RegionsDropDown>> getAllRegionList(); 
     Task<List<RegionsDropDown>> GetRegionsDropDowns();
 }

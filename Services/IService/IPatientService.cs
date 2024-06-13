@@ -1,3 +1,4 @@
+using Entity.DTO.General;
 using Entity.DTO.Login;
 using Entity.DTO.Patient;
 using Entity.Models;
@@ -15,7 +16,7 @@ public interface IPatientService
     // Task<(int,bool)> CreateBusinessRequest(BusinessRequest requestData);
     // Task<(int,bool)> CreateConciergeRequest(ConciergeRequest requestData);
     Task uploadFile(List<IFormFile> files, int requestId);
-    Task<List<Region>> getAllRegionList();
+    Task<List<RegionsDropDown>> getAllRegionList();
     Task CreateAccountPatient(LoginDTO loginDetails);
     Task<ResetPasswordVM> ForgotPassword(string Email);
     Task<PatientProfile> GetPatientProfile(string Email);

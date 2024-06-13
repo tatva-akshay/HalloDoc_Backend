@@ -8,30 +8,84 @@ using Microsoft.AspNetCore.Mvc;
 using Services.IService;
 using API.CustomAuthorizeMiddleware;
 using System.IO.Compression;
+using Microsoft.AspNetCore.Cors;
 
 namespace API.Controllers;
 
 [ApiController]
 [Route("api/Patient")]
+
+
 public class PatientController : ControllerBase
 {
     private readonly IPatientService _patientService;
     private readonly ICommunicationService _communicationService;
+    private readonly IAuthService _authService;
     private APIResponse _response;
     private readonly IMapper _mapper;
-    public PatientController(IPatientService patientService, ICommunicationService communicationService, IMapper mapper)
+    public PatientController(IPatientService patientService, ICommunicationService communicationService, IMapper mapper,IAuthService authService)
     {
         _patientService = patientService;
         _communicationService = communicationService;
+        _authService = authService;
         _mapper = mapper;
         _response = new();
     }
+
+    [HttpPost("ValidateEmail")]
+    [EnableCors("corsPolicy")]
+     public async Task<ActionResult<APIResponse>> ValidateEmail(ValidateEmailDTO validateEmail)
+    {
+        try
+        {
+            LoginDTO loginDetails = new(){
+                Email = validateEmail.email,
+                Password = ""
+            };
+            LoginUserStatus userStatus = await _authService.IsUserExists(loginDetails);
+
+            //is User Exist or not
+            if (userStatus == null)
+            {
+                _response.HttpStatusCode = HttpStatusCode.NotFound;
+                _response.Error = "User Does not Exist!";
+                _response.IsSuccess = false;
+                // return NotFound(_response);
+                return Ok(_response);
+            }
+           
+            LoginUserDTO userEmailRole = new()
+            {
+                Email = loginDetails.Email,
+                Role = userStatus.Role,
+            };
+
+            LoginResponseDTO loginResponse = new()
+            {
+                Email = loginDetails.Email,
+                token = "",
+                Role = userStatus.Role
+            };
+            _response.HttpStatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            _response.Result = loginResponse;
+            return Ok(_response);
+        }
+        catch (Exception ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.Forbidden;
+            _response.Error = ex.ToString();
+            _response.IsSuccess = false;
+            return Ok(_response);
+        }
+    } 
 
     // #frontend #backend things which are left behind or future purpose
 
     //this link will be work for the limited time with token.
     //on page hit check token from table wether that is valid period for time or not!
     [HttpPost("CreateAccount")]
+    [EnableCors("corsPolicy")]
     public async Task<ActionResult<APIResponse>> CreateAccount(LoginDTO loginDetails)
     {
         try
@@ -52,44 +106,46 @@ public class PatientController : ControllerBase
     }
 
     [HttpPost("ForgotPassword")]
-    public async Task<ActionResult<APIResponse>> ForgotPassword(string Email)
+    [EnableCors("corsPolicy")]
+    public async Task<ActionResult<APIResponse>> ForgotPassword(ForgetPasswordDTO forgetPasswordDTO)
     {
         try
         {
-            ResetPasswordVM resetPassword = await _patientService.ForgotPassword(Email);
+            ResetPasswordVM resetPassword = await _patientService.ForgotPassword(forgetPasswordDTO.Email);
             if (!resetPassword.isExist)
             {
                 _response.HttpStatusCode = HttpStatusCode.NotFound;
                 _response.Error = "User does Not Exists!";
                 _response.IsSuccess = false;
-                return BadRequest(_response);
+                return Ok(_response);
             }
             _response.HttpStatusCode = HttpStatusCode.OK;
             _response.Result = "Successfull!";
             _response.IsSuccess = true;
 
             // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "");
-            string resetLink = "reset password link";
+            string resetLink = "http://localhost:4200/patient/resetpassword";
             string Body = $"You can reset your password by {resetLink}";
             string Subject = "Reset Your Password";
 
             // id will be 0 for Patient
             //might not need to add this entry in email log
-            await _communicationService.GenericSendEmail(Email, Body, Subject, resetPassword.RoleId, resetPassword.id, 1, "");
+            await _communicationService.GenericSendEmail(forgetPasswordDTO.Email, Body, Subject, resetPassword.RoleId, resetPassword.id, 1, "");
             return Ok(_response);
         }
         catch (Exception ex)
         {
-            _response.HttpStatusCode = HttpStatusCode.Forbidden;
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
             _response.Error = ex.ToString();
             _response.IsSuccess = false;
-            return BadRequest(_response);
+            return Ok(_response);
         }
     }
 
     //here by srs create account and reset password will be same by logic.
     //on successfull just redirect to login!
     [HttpPost("ResetPassword")]
+    [EnableCors("corsPolicy")]
     public async Task<ActionResult<APIResponse>> ResetPassword(LoginDTO loginDetails)
     {
         try
@@ -105,22 +161,23 @@ public class PatientController : ControllerBase
         }
         catch (Exception ex)
         {
-            _response.HttpStatusCode = HttpStatusCode.Forbidden;
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
             _response.Error = ex.ToString();
             _response.IsSuccess = false;
-            return BadRequest(_response);
+            return Ok(_response);
         }
     }
 
     //this list will be managed at front end for the list binding to specific model.
     // #fronend
     [HttpGet("GetRegionList")]
+    [EnableCors("corsPolicy")]
     public async Task<ActionResult<APIResponse>> getAllRegionList()
     {
         try
         {
             _response.HttpStatusCode = HttpStatusCode.OK;
-            _response.IsSuccess = false;
+            _response.IsSuccess = true;
             _response.Result = await _patientService.getAllRegionList();
             return Ok(_response);
         }
@@ -129,13 +186,14 @@ public class PatientController : ControllerBase
             _response.HttpStatusCode = HttpStatusCode.BadRequest;
             _response.IsSuccess = false;
             _response.Error = ex.ToString();
-            return BadRequest(_response);
+            return Ok(_response);
         }
     }
 
     //patient request make the seperate validator for it. if user already a patient or not.
+    [EnableCors("corsPolicy")]
     [HttpPost("PatientRequest")]
-    public async Task<ActionResult<APIResponse>> CreateRequestPatient(PatientDetails requestData)
+    public async Task<ActionResult<APIResponse>> CreateRequestPatient([FromBody]PatientDetails requestData)
     {
         try
         {
@@ -147,7 +205,7 @@ public class PatientController : ControllerBase
                     _response.HttpStatusCode = HttpStatusCode.BadRequest;
                     _response.IsSuccess = false;
                     _response.Error = "Something Went Wrong!";
-                    return BadRequest(_response);
+                    return Ok(_response);
                 }
                 _response.HttpStatusCode = HttpStatusCode.Created;
                 _response.Result = "Reqeust Created SuccessFully";
@@ -165,7 +223,7 @@ public class PatientController : ControllerBase
                 _response.HttpStatusCode = HttpStatusCode.BadRequest;
                 _response.IsSuccess = false;
                 _response.Error = "Model State Invalid!";
-                return BadRequest(_response);
+                return Ok(_response);
             }
         }
         catch (BadHttpRequestException ex)
@@ -173,14 +231,14 @@ public class PatientController : ControllerBase
             _response.HttpStatusCode = HttpStatusCode.BadRequest;
             _response.IsSuccess = false;
             _response.Error = ex.ToString();
-            return BadRequest(_response);
+            return Ok(_response);
         }
         catch (Exception ex)
         {
             _response.HttpStatusCode = HttpStatusCode.BadRequest;
             _response.IsSuccess = false;
             _response.Error = ex.ToString();
-            return BadRequest(_response);
+            return Ok(_response);
         }
     }
 
@@ -206,12 +264,12 @@ public class PatientController : ControllerBase
                 _response.IsSuccess = true;
 
                 // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "")
-                string createLink = ""; //here will be create account page Url
+                string createLink = "http://localhost:4200/patient/createaccount"; //here will be create account page Url
                 string Body = $"";
                 string Subject = "";
                 if (!isExists)
                 {
-                    Body = $"You can Create Your Account By .Your Request Has been Successfully Created! by {requestData.YFirstName} ";
+                    Body = $"You can Create Your Account By {createLink} .Your Request Has been Successfully Created! by {requestData.YFirstName} ";
                     Subject = "Create Account";
                     await _communicationService.GenericSendEmail(requestData.Email, Body, Subject, 3, 0, 1, "");
                 }

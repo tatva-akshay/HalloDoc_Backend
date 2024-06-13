@@ -22,10 +22,12 @@ builder.Services.AddAutoMapper(typeof(MapConfig));
 
 builder.Services.AddScoped<IAuthService,AuthService>();
 builder.Services.AddScoped<IPatientService,PatientService>();
+builder.Services.AddScoped<IAdminService,AdminService>();
 builder.Services.AddScoped<ICommunicationService,CommunicationService>();
 
 builder.Services.AddScoped<ITableRepository,TableRepository>();
 builder.Services.AddScoped<IPatientRepository,PatientRepository>();
+builder.Services.AddScoped<IAdminRepository,AdminRepository>();
 builder.Services.AddScoped<IAuthRepository,AuthRepository>();
 builder.Services.AddScoped<ICommunicationRepository,CommunicationRepository>();
 

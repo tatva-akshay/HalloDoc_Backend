@@ -42,7 +42,7 @@ public class PatientDetails
     public string Mobile { get; set; }
 
     [Column(TypeName = "timestamp without time zone")]
-    public DateTime CreatedDate { get; set; }
+    public DateTime CreatedDate { get; set; }   
 
     [Column("street")]
     [StringLength(50)]
@@ -52,7 +52,7 @@ public class PatientDetails
     [Column("city")]
     [StringLength(100)]
     [Required]
-    public string City { get; set; }
+    public string? City { get; set; }
 
     [Column("state")]
     [StringLength(50)]
@@ -61,7 +61,7 @@ public class PatientDetails
     [Required]
     public int regionId { get; set; }
 
-    public List<Region> allRegion { get; set; }
+    public List<Region>? allRegion { get; set; }
 
     [Required]
     public decimal ZipCode { get; set; }

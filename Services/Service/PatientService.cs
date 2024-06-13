@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Transactions;
 using CloudinaryDotNet.Actions;
+using Entity.DTO.General;
 using Entity.DTO.Login;
 using Entity.DTO.Patient;
 using Entity.Models;
@@ -409,7 +410,7 @@ public class PatientService : IPatientService
         throw new NotImplementedException();
     }
 
-    public async Task<List<Region>> getAllRegionList()
+    public async Task<List<RegionsDropDown>> getAllRegionList()
     {
         return await _tableRepository.getAllRegionList();
     }

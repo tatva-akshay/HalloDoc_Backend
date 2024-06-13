@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\Project\\Angular\\HalloDoc\\Backend\\Entity\\Entity.csproj": {}
+    "D:\\Project\\Angular\\HalloDoc\\Backend\\Entity\\Entity.csproj": {}
   },
   "projects": {
-    "d:\\Project\\Angular\\HalloDoc\\Backend\\Entity\\Entity.csproj": {
+    "D:\\Project\\Angular\\HalloDoc\\Backend\\Entity\\Entity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\Project\\Angular\\HalloDoc\\Backend\\Entity\\Entity.csproj",
+        "projectUniqueName": "D:\\Project\\Angular\\HalloDoc\\Backend\\Entity\\Entity.csproj",
         "projectName": "Entity",
-        "projectPath": "d:\\Project\\Angular\\HalloDoc\\Backend\\Entity\\Entity.csproj",
+        "projectPath": "D:\\Project\\Angular\\HalloDoc\\Backend\\Entity\\Entity.csproj",
         "packagesPath": "C:\\Users\\pce114\\.nuget\\packages\\",
-        "outputPath": "d:\\Project\\Angular\\HalloDoc\\Backend\\Entity\\obj\\",
+        "outputPath": "D:\\Project\\Angular\\HalloDoc\\Backend\\Entity\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pce114\\AppData\\Roaming\\NuGet\\NuGet.Config",
