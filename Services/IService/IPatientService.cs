@@ -21,7 +21,7 @@ public interface IPatientService
     Task<ResetPasswordVM> ForgotPassword(string Email);
     Task<PatientProfile> GetPatientProfile(string Email);
     Task UpdatePatientProfile(PatientProfile patientDetails);
-    Task<PatientDashboard> GetDashboardContent(int userId);
+    Task<PatientDashboard> GetDashboardContent(string userEmail);
     Task<SingleRequest> GetSingleRequestDetails(int requestId);
     Task UploadDocuments(UploadDocument userUploadedDocuments);
     Task<DownloadRWFResponse> DownloadDocuments(DownloadRWF downloadRWF);

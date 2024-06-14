@@ -261,7 +261,7 @@ public class PatientService : IPatientService
                 AspNetUser newAspNetUser = new AspNetUser();
                 newAspNetUser.UserName = requestData.FirstName;
                 newAspNetUser.Email = requestData.Email;
-                newAspNetUser.Phonenumber = requestData.Mobile;
+                newAspNetUser.Phonenumber = requestData.Mobile.ToString();
 
                 await _tableRepository.AddAspNetUser(newAspNetUser);
                 await _tableRepository.SaveChanges();
@@ -281,12 +281,12 @@ public class PatientService : IPatientService
                 newUser.ZipCode = requestData.ZipCode.ToString();
                 if (requestData.Bdate != null)
                 {
-                    newUser.StrMonth = requestData.Bdate.Value.Month.ToString();
-                    newUser.IntDate = requestData.Bdate.Value.Day;
-                    newUser.IntYear = requestData.Bdate.Value.Year;
+                    newUser.StrMonth = requestData.Bdate.Month.ToString();
+                    newUser.IntDate = requestData.Bdate.Day;
+                    newUser.IntYear = requestData.Bdate.Year;
                 }
                 newUser.RegionId = requestData.regionId;
-                newUser.Mobile = requestData.Mobile;
+                newUser.Mobile = requestData.Mobile.ToString();
 
                 await _tableRepository.AddUserTable(newUser);
                 await _tableRepository.SaveChanges();
@@ -319,7 +319,7 @@ public class PatientService : IPatientService
                 UserId = oldUser.UserId,
                 FirstName = requestData.YFirstName,
                 LastName = requestData.YLastName,
-                PhoneNumber = requestData.YMobile,
+                PhoneNumber = requestData.YMobile.ToString(),
                 Email = requestData.YEmail,
                 Status = 1,
                 CreatedDate = DateTime.Now,
@@ -337,7 +337,7 @@ public class PatientService : IPatientService
                 RegionId = requestData.regionId,
                 FirstName = requestData.FirstName,
                 LastName = requestData.LastName,
-                PhoneNumber = requestData.Mobile,
+                PhoneNumber = requestData.Mobile.ToString(),
                 Email = requestData.Email,
                 Street = requestData.Street,
                 City = requestData.City,
@@ -349,9 +349,9 @@ public class PatientService : IPatientService
 
             if (requestData.Bdate != null)
             {
-                newRequestClient.StrMonth = requestData.Bdate.Value.Month.ToString();
-                newRequestClient.IntDate = requestData.Bdate.Value.Day;
-                newRequestClient.IntYear = requestData.Bdate.Value.Year;
+                newRequestClient.StrMonth = requestData.Bdate.Month.ToString();
+                newRequestClient.IntDate = requestData.Bdate.Day;
+                newRequestClient.IntYear = requestData.Bdate.Year;
             }
 
             await _tableRepository.AddRequestClient(newRequestClient);
@@ -484,11 +484,12 @@ public class PatientService : IPatientService
         }
     }
 
-    public async Task<PatientDashboard> GetDashboardContent(int userId)
+    public async Task<PatientDashboard> GetDashboardContent(string userEmail)
     {
         try
         {
-            return await _patientRepository.GetDashboardContent(userId);
+            User user = await _patientRepository.GetUserByEmail(userEmail);
+            return await _patientRepository.GetDashboardContent(user.UserId);
         }
         catch (Exception ex)
         {

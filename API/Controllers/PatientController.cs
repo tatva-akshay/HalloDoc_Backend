@@ -242,8 +242,9 @@ public class PatientController : ControllerBase
         }
     }
 
+    [EnableCors("corsPolicy")]
     [HttpPost("OtherRequest")]
-    public async Task<ActionResult<APIResponse>> OtherRequest(OtherRequest requestData)
+    public async Task<ActionResult<APIResponse>> OtherRequest([FromBody]OtherRequest requestData)
     {
         try
         {
@@ -360,12 +361,12 @@ public class PatientController : ControllerBase
 
     [CustomAuthorize("3")]
     [HttpGet("PatientDashboard")]
-    public async Task<ActionResult<APIResponse>> PatientDashboard(int userId)
+    public async Task<ActionResult<APIResponse>> PatientDashboard(string email)
     {
         try
         {
             //service to get dashboard content
-            PatientDashboard patientDashboardData = await _patientService.GetDashboardContent(userId);
+            PatientDashboard patientDashboardData = await _patientService.GetDashboardContent(email);
             if (patientDashboardData == null)
             {
                 _response.HttpStatusCode = HttpStatusCode.OK;
@@ -375,7 +376,7 @@ public class PatientController : ControllerBase
             }
             _response.HttpStatusCode = HttpStatusCode.OK;
             _response.IsSuccess = true;
-            _response.Result = patientDashboardData;
+            _response.Result = patientDashboardData.dashboardContent;
             return Ok(_response);
         }
         catch (Exception ex)

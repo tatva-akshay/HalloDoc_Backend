@@ -74,13 +74,31 @@ public class PatientRepository : IPatientRepository
 
     public async Task<PatientDashboard> GetDashboardContent(int userId)
     {
+        Dictionary<int, string>
+    statusMapping = new Dictionary<int, string>
+                    {
+        { 1, "Unassigned" },
+        { 2, "Accepted" },
+        { 3, "Cancelled" },
+        { 4, "Active" },
+        { 5, "Active" },
+        { 6, "Conclude" },
+        { 7, "CancelledByPatient" },
+        { 8, "Closed" },
+        { 9, "UnPaid" },
+        { 11, "Blocked" },
+        { 10, "Clear" },
+
+
+                    };
         PatientDashboard patientDashboardData = new PatientDashboard();
-        patientDashboardData.dashboardContent = await _context.Requests
+        patientDashboardData.dashboardContent = await _context.Requests.Where(a => a.UserId == userId)
         .Select(c => new PatientDashboardContent()
         {
             RequestId = c.RequestId,
             Status = c.Status,
             DocumentCount = _context.RequestWiseFiles.Where(a => a.RequestId == c.RequestId).Count(),
+            StatusName = (c.Status > 10 || c.Status < 1) ? "Error" : statusMapping[c.Status],
         }).ToListAsync();
         return patientDashboardData;
     }

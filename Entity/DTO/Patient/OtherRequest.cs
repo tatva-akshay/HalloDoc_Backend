@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Entity.Models;
 using Microsoft.AspNetCore.Http;
@@ -15,9 +16,10 @@ public class OtherRequest
     public string? YLastName { get; set; }
 
     [StringLength(256)]
+    // [RegularExpression("//")]
     public string? YEmail { get; set; }
 
-    [StringLength(20)]
+    [DefaultValue(0)]
     public string? YMobile { get; set; }
 
     [StringLength(100)]
@@ -33,16 +35,14 @@ public class OtherRequest
     [StringLength(50)]
     public string? LastName { get; set; }
 
-    public DateOnly? Bdate { get; set; }
+    public DateTime Bdate { get; set; }
 
     [StringLength(256)]
     [Required]
     public string Email { get; set; }
 
-    [StringLength(20)]
-    public string? Mobile { get; set; }
-
-    public DateTime? CreatedDate { get; set; }
+    [Required]
+    public string Mobile { get; set; }
 
     [StringLength(50)]
     [Required]
