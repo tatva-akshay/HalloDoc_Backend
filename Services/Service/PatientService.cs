@@ -95,7 +95,35 @@ public class PatientService : IPatientService
         }
         await _tableRepository.SaveChanges();
         resetPassword.isValidated = true;
+        resetPassword.token = Token;
         return resetPassword;
+    }
+
+    public async Task<resetPasswordGetDTO> GetResetPasswordData(string token)
+    {
+        try
+        {
+            PasswordReset passwordReset = await _patientRepository.GetPasswordResetByToken(token);
+            resetPasswordGetDTO resetPasswordGetDTO = new resetPasswordGetDTO();
+            if (resetPasswordGetDTO == null)
+            {
+                return resetPasswordGetDTO;
+            }
+            if (DateTime.Now.Day - passwordReset.CreatedDate.Day > 1)
+            {
+                resetPasswordGetDTO.isValidated = false;
+            }
+            else
+            {
+                resetPasswordGetDTO.isValidated = true;
+            }
+            resetPasswordGetDTO.Email = passwordReset.Email;
+            return resetPasswordGetDTO;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
 
     public async Task<string> ConfirmationNumber(PatientDetails requestData)
@@ -547,13 +575,13 @@ public class PatientService : IPatientService
     {
         try
         {
-           return await _patientRepository.DownloadRequestWiseFileDocuments(downloadRWF);
+            return await _patientRepository.DownloadRequestWiseFileDocuments(downloadRWF);
         }
         catch (Exception ex)
         {
             return null;
         }
-    }   
+    }
     public async Task<PatientDetails> GetForMePatientRequestData(string email)
     {
         try
@@ -571,13 +599,13 @@ public class PatientService : IPatientService
             patientDetails.State = oldPatientProfile.State;
             patientDetails.ZipCode = decimal.Parse(oldPatientProfile.ZipCode);
             patientDetails.regionId = oldPatientProfile.regionId;
-            
+
             return patientDetails;
         }
         catch (Exception ex)
         {
             return null;
         }
-    }   
+    }
 }
 

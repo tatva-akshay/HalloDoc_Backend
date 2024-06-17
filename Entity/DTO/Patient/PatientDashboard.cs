@@ -10,4 +10,5 @@ public class PatientDashboardContent {
     public int Status { get; set; }
     public string? StatusName { get; set; }
     public int DocumentCount { get; set; } = 0;
+    public DateTime CreatedDate {get; set;}
 }

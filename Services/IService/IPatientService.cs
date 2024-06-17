@@ -26,4 +26,5 @@ public interface IPatientService
     Task UploadDocuments(UploadDocument userUploadedDocuments);
     Task<DownloadRWFResponse> DownloadDocuments(DownloadRWF downloadRWF);
     Task<PatientDetails> GetForMePatientRequestData(string email);
+    Task<resetPasswordGetDTO> GetResetPasswordData(string token);
 }

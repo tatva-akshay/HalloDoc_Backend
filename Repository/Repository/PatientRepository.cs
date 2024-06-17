@@ -72,6 +72,13 @@ public class PatientRepository : IPatientRepository
         return oldPasswordReset;
     }
 
+    public async Task<PasswordReset> GetPasswordResetByToken(string token)
+    {
+        PasswordReset oldPasswordReset = await _context.PasswordResets.FirstOrDefaultAsync(m => m.Token == token);
+        return oldPasswordReset;
+    }
+
+
     public async Task<PatientDashboard> GetDashboardContent(int userId)
     {
         Dictionary<int, string>
@@ -99,6 +106,7 @@ public class PatientRepository : IPatientRepository
             Status = c.Status,
             DocumentCount = _context.RequestWiseFiles.Where(a => a.RequestId == c.RequestId).Count(),
             StatusName = (c.Status > 10 || c.Status < 1) ? "Error" : statusMapping[c.Status],
+            CreatedDate = (DateTime)c.CreatedDate
         }).ToListAsync();
         return patientDashboardData;
     }

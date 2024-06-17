@@ -1,0 +1,5 @@
+2024-06-15 04:43:50.060 +05:30 [DBG] Connection id "0HN4CCBKUR07N" received FIN.
+2024-06-15 04:43:50.092 +05:30 [DBG] Connection id "0HN4CCBKUR07N" sending FIN because: "The Socket transport's send loop completed gracefully."
+2024-06-15 04:43:50.092 +05:30 [DBG] Connection id "0HN4CCBKUR07N" is closed. The last processed stream ID was 277.
+2024-06-15 04:43:50.093 +05:30 [DBG] The connection queue processing loop for 0HN4CCBKUR07N completed.
+2024-06-15 04:43:50.096 +05:30 [DBG] Connection id "0HN4CCBKUR07N" stopped.

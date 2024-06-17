@@ -9,6 +9,7 @@ using Services.IService;
 using API.CustomAuthorizeMiddleware;
 using System.IO.Compression;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Identity.Data;
 
 namespace API.Controllers;
 
@@ -23,7 +24,7 @@ public class PatientController : ControllerBase
     private readonly IAuthService _authService;
     private APIResponse _response;
     private readonly IMapper _mapper;
-    public PatientController(IPatientService patientService, ICommunicationService communicationService, IMapper mapper,IAuthService authService)
+    public PatientController(IPatientService patientService, ICommunicationService communicationService, IMapper mapper, IAuthService authService)
     {
         _patientService = patientService;
         _communicationService = communicationService;
@@ -34,11 +35,12 @@ public class PatientController : ControllerBase
 
     [HttpPost("ValidateEmail")]
     [EnableCors("corsPolicy")]
-     public async Task<ActionResult<APIResponse>> ValidateEmail(ValidateEmailDTO validateEmail)
+    public async Task<ActionResult<APIResponse>> ValidateEmail(ValidateEmailDTO validateEmail)
     {
         try
         {
-            LoginDTO loginDetails = new(){
+            LoginDTO loginDetails = new()
+            {
                 Email = validateEmail.email,
                 Password = ""
             };
@@ -53,7 +55,7 @@ public class PatientController : ControllerBase
                 // return NotFound(_response);
                 return Ok(_response);
             }
-           
+
             LoginUserDTO userEmailRole = new()
             {
                 Email = loginDetails.Email,
@@ -78,7 +80,7 @@ public class PatientController : ControllerBase
             _response.IsSuccess = false;
             return Ok(_response);
         }
-    } 
+    }
 
     // #frontend #backend things which are left behind or future purpose
 
@@ -112,7 +114,7 @@ public class PatientController : ControllerBase
         try
         {
             ResetPasswordVM resetPassword = await _patientService.ForgotPassword(forgetPasswordDTO.Email);
-            if (!resetPassword.isExist)
+            if (!resetPassword.isExist || (resetPassword.isExist && resetPassword.RoleId != 3))
             {
                 _response.HttpStatusCode = HttpStatusCode.NotFound;
                 _response.Error = "User does Not Exists!";
@@ -124,7 +126,8 @@ public class PatientController : ControllerBase
             _response.IsSuccess = true;
 
             // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "");
-            string resetLink = "http://localhost:4200/patient/resetpassword";
+            // string resetLink = "http://localhost:4200/patient/resetpassword";
+            string resetLink = $"http://localhost:4200/patient/resetpassword?token={resetPassword.token}";
             string Body = $"You can reset your password by {resetLink}";
             string Subject = "Reset Your Password";
 
@@ -142,6 +145,42 @@ public class PatientController : ControllerBase
         }
     }
 
+    //here by srs create account and reset password will be same by logic.
+    //on successfull just redirect to login!
+    [HttpGet("ResetPassword")]
+    [EnableCors("corsPolicy")]
+    public async Task<ActionResult<APIResponse>> ResetPassword(string token)
+    {
+        try
+        {
+            resetPasswordGetDTO resetPasswordGetDTO = await _patientService.GetResetPasswordData(token);
+            if (resetPasswordGetDTO == null)
+            {
+                _response.HttpStatusCode = HttpStatusCode.NotFound;
+                _response.Error = "User does not Exists!";
+                _response.IsSuccess = false;
+                return Ok(_response);
+            } 
+            else if(resetPasswordGetDTO!=null && !resetPasswordGetDTO.isValidated){
+                _response.HttpStatusCode = HttpStatusCode.BadRequest;
+                _response.Error = "Token time Expired!";
+                _response.IsSuccess = false;
+                return Ok(_response);
+            }
+            _response.HttpStatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            _response.Result = resetPasswordGetDTO;
+            return Ok(_response);
+        }
+        catch (Exception ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.Error = ex.ToString();
+            _response.IsSuccess = false;
+            return Ok(_response);
+        }
+    }
+    
     //here by srs create account and reset password will be same by logic.
     //on successfull just redirect to login!
     [HttpPost("ResetPassword")]
@@ -193,7 +232,7 @@ public class PatientController : ControllerBase
     //patient request make the seperate validator for it. if user already a patient or not.
     [EnableCors("corsPolicy")]
     [HttpPost("PatientRequest")]
-    public async Task<ActionResult<APIResponse>> CreateRequestPatient([FromBody]PatientDetails requestData)
+    public async Task<ActionResult<APIResponse>> CreateRequestPatient([FromBody] PatientDetails requestData)
     {
         try
         {
@@ -244,7 +283,7 @@ public class PatientController : ControllerBase
 
     [EnableCors("corsPolicy")]
     [HttpPost("OtherRequest")]
-    public async Task<ActionResult<APIResponse>> OtherRequest([FromBody]OtherRequest requestData)
+    public async Task<ActionResult<APIResponse>> OtherRequest([FromBody] OtherRequest requestData)
     {
         try
         {
@@ -265,11 +304,12 @@ public class PatientController : ControllerBase
                 _response.IsSuccess = true;
 
                 // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "")
-                string createLink = "http://localhost:4200/patient/createaccount"; //here will be create account page Url
                 string Body = $"";
                 string Subject = "";
                 if (!isExists)
                 {
+                    ResetPasswordVM resetPassword = await _patientService.ForgotPassword(requestData.Email);
+                    string createLink = $"http://localhost:4200/patient/createaccount?token={resetPassword.token}"; //here will be create account page Url
                     Body = $"You can Create Your Account By {createLink} .Your Request Has been Successfully Created! by {requestData.YFirstName} ";
                     Subject = "Create Account";
                     await _communicationService.GenericSendEmail(requestData.Email, Body, Subject, 3, 0, 1, "");
@@ -447,8 +487,8 @@ public class PatientController : ControllerBase
             {
                 foreach (var file in downloadRWFResponse.RequestWiseFileList)
                 {
-                    string filePath = file.Replace("/","\\");
-                    string[] fileString = file.Split("/").ToArray();    
+                    string filePath = file.Replace("/", "\\");
+                    string[] fileString = file.Split("/").ToArray();
                     string fileName = fileString[fileString.Length - 1];
                     var entry = zipArchive.CreateEntry(fileName);
                     using (var entryStream = entry.Open())
