@@ -34,7 +34,7 @@ public class PatientProfile
     [Required]
     public int regionId { get; set; }
 
-    public List<RegionsDropDown> allRegion { get; set; }
+    public List<RegionsDropDown>? allRegion { get; set; }
 
     public string? ZipCode { get; set; }
 }

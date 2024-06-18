@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Formats.Asn1;
 using Entity.DataContext;
 using Entity.DTO.Login;
 using Entity.DTO.Patient;
@@ -46,6 +47,11 @@ public class PatientRepository : IPatientRepository
     public async Task<User> GetUserByEmail(string userEmail)
     {
         User oldUser = await _context.Users.FirstOrDefaultAsync(m => m.Email == userEmail);
+        return oldUser;
+    }
+    public async Task<User> GetUserByUserId(int userId)
+    {
+        User oldUser = await _context.Users.FirstOrDefaultAsync(m => m.UserId == userId);
         return oldUser;
     }
 
@@ -115,6 +121,10 @@ public class PatientRepository : IPatientRepository
     {
         SingleRequest requestData = new SingleRequest();
         requestData.RequestId = requestId;
+        Request request = await GetRequestByRequestId(requestId);
+        User user = await GetUserByUserId((int)request.UserId);
+        requestData.ConfirmationNumber = request.ConfirmationNumber;
+        requestData.PatientName = $"{user.FirstName} {user.LastName}";
         requestData.DocumentList = await _context.RequestWiseFiles.Where(a => a.RequestId == requestId)
         .Select(c => new DocumentList()
         {
@@ -124,12 +134,16 @@ public class PatientRepository : IPatientRepository
             FileName = c.FileName,
             Uploader = c.AdminId == null ?
             (c.PhysicianId == null ?
-            "Patient" + _context.RequestClients.FirstOrDefault(x => x.RequestId == requestId).FirstName
-            : "Provider" + _context.Physicians.FirstOrDefault(x => x.PhysicianId == c.PhysicianId).FirstName)
-             : "Admin" + _context.Admins.FirstOrDefault(x => x.AdminId == c.AdminId).FirstName
+            "Patient " + _context.RequestClients.FirstOrDefault(x => x.RequestId == requestId).FirstName
+            : "Provider " + _context.Physicians.FirstOrDefault(x => x.PhysicianId == c.PhysicianId).FirstName)
+             : "Admin " + _context.Admins.FirstOrDefault(x => x.AdminId == c.AdminId).FirstName
         })
         .ToListAsync();
         return requestData;
+    }
+
+    public async Task<Request> GetRequestByRequestId(int requestId){
+        return await _context.Requests.FirstOrDefaultAsync(x => x.RequestId == requestId);
     }
 
     public async Task<DownloadRWFResponse> DownloadRequestWiseFileDocuments(DownloadRWF downloadRWF)

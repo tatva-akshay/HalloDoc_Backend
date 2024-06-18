@@ -10,6 +10,7 @@ public interface IPatientRepository
     Task<VerifyPatientRole> VerifyRoleIfPatient(string emailId);
     Task<string> GetStateName(int regionId);
     Task<User> GetUserByEmail(string userEmail);
+    Task<User> GetUserByUserId(int userId);
     Task<AspNetUser> GetAspNetUserByEmail(string userEmail);
     Task<Admin> GetAdminByEmail(string emailId);
     Task<Physician> GetPhysicianByEmail(string emailId);
@@ -18,5 +19,6 @@ public interface IPatientRepository
     Task<PatientDashboard> GetDashboardContent(int userId);
     Task<SingleRequest> GetSingleRequestDetails(int requestId);
     Task<DownloadRWFResponse> DownloadRequestWiseFileDocuments(DownloadRWF downloadRWF);
+    Task<Request> GetRequestByRequestId(int requestId);
     // Task<PatientDetails> GetForMeRequestDetails();
 }

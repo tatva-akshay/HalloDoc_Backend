@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Entity.DTO.Login;
 
 public class LoginDTO

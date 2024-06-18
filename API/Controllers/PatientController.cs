@@ -348,13 +348,13 @@ public class PatientController : ControllerBase
 
     //Patient Dashboard
     [CustomAuthorize("3")]
-    [HttpGet(Name = "GetPatientProfile")]
-    public async Task<ActionResult<APIResponse>> GetPatientProfile(string userEmail)
+    [HttpGet("GetPatientProfile")]  
+    public async Task<ActionResult<APIResponse>> GetPatientProfile(string email)
     {
         try
         {
             //user definetely exists so not checking nullable
-            PatientProfile patientDetails = await _patientService.GetPatientProfile(userEmail);
+            PatientProfile patientDetails = await _patientService.GetPatientProfile(email);
             _response.HttpStatusCode = HttpStatusCode.OK;
             _response.Result = patientDetails;
             _response.IsSuccess = true;
@@ -430,12 +430,12 @@ public class PatientController : ControllerBase
 
     [CustomAuthorize("3")]
     [HttpGet("SingleRequestView")]
-    public async Task<ActionResult<APIResponse>> SingleRequestView(int reqeustId)
+    public async Task<ActionResult<APIResponse>> SingleRequestView(int requestId)
     {
         try
         {
             //service to get dashboard content
-            SingleRequest singleRequestDetails = await _patientService.GetSingleRequestDetails(reqeustId);
+            SingleRequest singleRequestDetails = await _patientService.GetSingleRequestDetails(requestId);
             _response.HttpStatusCode = HttpStatusCode.OK;
             _response.IsSuccess = true;
             _response.Result = singleRequestDetails;
