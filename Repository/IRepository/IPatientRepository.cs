@@ -20,5 +20,7 @@ public interface IPatientRepository
     Task<SingleRequest> GetSingleRequestDetails(int requestId);
     Task<DownloadRWFResponse> DownloadRequestWiseFileDocuments(DownloadRWF downloadRWF);
     Task<Request> GetRequestByRequestId(int requestId);
+    Task<RequestWiseFile> GetRequestWiseFileById(int requestWiseFileId);
+    Task deleteDocument(int requestWiseFileId);
     // Task<PatientDetails> GetForMeRequestDetails();
 }

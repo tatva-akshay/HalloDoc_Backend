@@ -582,6 +582,18 @@ public class PatientService : IPatientService
             return null;
         }
     }
+
+    public async Task deleteDocument(int requestWiseFileId)
+    {
+        try
+        {
+             await _patientRepository.deleteDocument(requestWiseFileId);
+        }
+        catch (Exception ex)
+        {
+            
+        }
+    }
     public async Task<PatientDetails> GetForMePatientRequestData(string email)
     {
         try

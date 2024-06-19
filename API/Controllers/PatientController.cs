@@ -472,7 +472,7 @@ public class PatientController : ControllerBase
         }
     }
 
-    // [CustomAuthorize("3")]
+    [CustomAuthorize("3")]
     [HttpPost("DownloadDocuments")]
     public async Task<ActionResult<APIResponse>> DownloadDocuments(DownloadRWF downloadRWF)
     {
@@ -515,7 +515,31 @@ public class PatientController : ControllerBase
         }
     }
 
-    // it will take user email and will get data from userTable
+    [CustomAuthorize("3")]
+    [HttpGet("DeleteDocument")]
+    public async Task<ActionResult<APIResponse>> DeleteDocument(int requestWiseFileId)
+    {
+        try
+        {
+            //login to download document it will be done after frontend
+
+           await _patientService.deleteDocument(requestWiseFileId);
+            _response.HttpStatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            _response.Result = "Deleted Successfully";
+            return Ok(_response);
+        }
+        catch (Exception ex)
+        {
+            _response.HttpStatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Error = ex.ToString();
+            return BadRequest(_response);
+        }
+    }
+
+    // it will take user email and will get data from userTable, 
+    // patient profile api is enough
     [CustomAuthorize("3")]
     [HttpGet("ForMeRequestGetData")]
     public async Task<ActionResult<APIResponse>> ForMeRequestGetData(string userEmail)
@@ -547,7 +571,7 @@ public class PatientController : ControllerBase
 
     [CustomAuthorize("3")]
     [HttpPost("ForMeRequest")]
-    public async Task<ActionResult<APIResponse>> ForMeRequest(PatientDetails requestData)
+    public async Task<ActionResult<APIResponse>> ForMeRequest([FromBody]PatientDetails requestData)
     {
         try
         {
@@ -559,7 +583,7 @@ public class PatientController : ControllerBase
                     _response.HttpStatusCode = HttpStatusCode.BadRequest;
                     _response.IsSuccess = false;
                     _response.Error = "Something Went Wrong!";
-                    return BadRequest(_response);
+                    return Ok(_response);
                 }
                 _response.HttpStatusCode = HttpStatusCode.Created;
                 _response.Result = "Reqeust Created SuccessFully";
@@ -577,7 +601,7 @@ public class PatientController : ControllerBase
                 _response.HttpStatusCode = HttpStatusCode.BadRequest;
                 _response.IsSuccess = false;
                 _response.Error = "Model State Invalid!";
-                return BadRequest(_response);
+                return Ok(_response);
             }
         }
         catch (BadHttpRequestException ex)
@@ -585,14 +609,14 @@ public class PatientController : ControllerBase
             _response.HttpStatusCode = HttpStatusCode.BadRequest;
             _response.IsSuccess = false;
             _response.Error = ex.ToString();
-            return BadRequest(_response);
+            return Ok(_response);
         }
         catch (Exception ex)
         {
             _response.HttpStatusCode = HttpStatusCode.BadRequest;
             _response.IsSuccess = false;
             _response.Error = ex.ToString();
-            return BadRequest(_response);
+            return Ok(_response);
         }
     }
 
@@ -601,8 +625,8 @@ public class PatientController : ControllerBase
     //YFirstName required Field, also requestType = 2 will be also assigned at front end
     //there will be getAllregion controller will be called to get the region list #frontend
     [CustomAuthorize("3")]
-    [HttpPost]
-    public async Task<ActionResult<APIResponse>> ForSomeOneElseRequest(OtherRequest someOneElseRequestDetails)
+    [HttpPost("ForSomeoneElseRequest")]
+    public async Task<ActionResult<APIResponse>> ForSomeOneElseRequest([FromBody]OtherRequest someOneElseRequestDetails)
     {
         try
         {
@@ -616,7 +640,7 @@ public class PatientController : ControllerBase
                     _response.HttpStatusCode = HttpStatusCode.BadRequest;
                     _response.IsSuccess = false;
                     _response.Error = "Something Went Wrong!";
-                    return BadRequest(_response);
+                    return Ok(_response);
                 }
                 _response.HttpStatusCode = HttpStatusCode.Created;
                 _response.Result = "Reqeust Created SuccessFully";
@@ -645,7 +669,7 @@ public class PatientController : ControllerBase
                 _response.HttpStatusCode = HttpStatusCode.BadRequest;
                 _response.IsSuccess = false;
                 _response.Error = "Model State Invalid!";
-                return BadRequest(_response);
+                return Ok(_response);
             }
         }
         catch (BadHttpRequestException ex)
@@ -653,14 +677,14 @@ public class PatientController : ControllerBase
             _response.HttpStatusCode = HttpStatusCode.BadRequest;
             _response.IsSuccess = false;
             _response.Error = ex.ToString();
-            return BadRequest(_response);
+            return Ok(_response);
         }
         catch (Exception ex)
         {
             _response.HttpStatusCode = HttpStatusCode.BadRequest;
             _response.IsSuccess = false;
             _response.Error = ex.ToString();
-            return BadRequest(_response);
+            return Ok(_response);
         }
     }
     //Review Agreement

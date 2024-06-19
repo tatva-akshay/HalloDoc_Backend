@@ -125,7 +125,7 @@ public class PatientRepository : IPatientRepository
         User user = await GetUserByUserId((int)request.UserId);
         requestData.ConfirmationNumber = request.ConfirmationNumber;
         requestData.PatientName = $"{user.FirstName} {user.LastName}";
-        requestData.DocumentList = await _context.RequestWiseFiles.Where(a => a.RequestId == requestId)
+        requestData.DocumentList = await _context.RequestWiseFiles.Where(a => a.RequestId == requestId && (bool)!a.IsDeleted)
         .Select(c => new DocumentList()
         {
             RequestId = c.RequestId,
@@ -151,15 +151,24 @@ public class PatientRepository : IPatientRepository
         DownloadRWFResponse downloadResponse = new DownloadRWFResponse();
         if (downloadRWF.isDownloadALl)
         {
-            downloadResponse.RequestWiseFileList = await _context.RequestWiseFiles.Where(a => a.RequestId == downloadRWF.RequestId).Select(b => b.FileName).ToListAsync();
+            downloadResponse.RequestWiseFileList = await _context.RequestWiseFiles.Where(a => a.RequestId == downloadRWF.RequestId && (bool)!a.IsDeleted).Select(b => b.FileName).ToListAsync();
         }
         else
         {
             downloadResponse.RequestWiseFileList = await _context.RequestWiseFiles
-            .Where(a => a.RequestId == downloadRWF.RequestId && downloadRWF.RequestWiseFileId.Contains(a.RequestWiseFileId))
+            .Where(a => a.RequestId == downloadRWF.RequestId && downloadRWF.RequestWiseFileId.Contains(a.RequestWiseFileId) && (bool)!a.IsDeleted)
             .Select(b => b.FileName).ToListAsync();
         }
         downloadResponse.RequestId = downloadRWF.RequestId;
         return downloadResponse;
+    }
+
+    public async Task<RequestWiseFile> GetRequestWiseFileById(int requestWiseFileId){
+        return await _context.RequestWiseFiles.FirstOrDefaultAsync(a=>a.RequestWiseFileId == requestWiseFileId);
+    }
+    public async Task deleteDocument(int requestWiseFileId){
+        RequestWiseFile requestWiseFile = await GetRequestWiseFileById(requestWiseFileId);
+        requestWiseFile.IsDeleted = true;
+        await _tableRepository.SaveChanges();
     }
 }

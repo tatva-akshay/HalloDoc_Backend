@@ -27,4 +27,5 @@ public interface IPatientService
     Task<DownloadRWFResponse> DownloadDocuments(DownloadRWF downloadRWF);
     Task<PatientDetails> GetForMePatientRequestData(string email);
     Task<resetPasswordGetDTO> GetResetPasswordData(string token);
+    Task deleteDocument(int requestWiseFileId);
 }
