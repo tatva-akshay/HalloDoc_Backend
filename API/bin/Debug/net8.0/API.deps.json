@@ -1554,6 +1554,7 @@
       },
       "Repository/1.0.0": {
         "dependencies": {
+          "AutoMapper": "13.0.1",
           "BCrypt.Net": "0.1.0",
           "CloudinaryDotNet": "1.26.2",
           "Entity": "1.0.0"

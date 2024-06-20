@@ -2,12 +2,15 @@ using System.IO.Compression;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Transactions;
+using AutoMapper;
 using CloudinaryDotNet.Actions;
 using Entity.DTO.General;
 using Entity.DTO.Login;
 using Entity.DTO.Patient;
 using Entity.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Repository.IRepository;
 using Services.IService;
 
@@ -18,12 +21,14 @@ public class PatientService : IPatientService
     private readonly IPatientRepository _patientRepository;
     private readonly ITableRepository _tableRepository;
     private readonly IAuthRepository _authRepository;
+    private readonly IMapper _mapper;
 
-    public PatientService(IPatientRepository patientRepository, ITableRepository tableRepository, IAuthRepository authRepository)
+    public PatientService(IPatientRepository patientRepository, ITableRepository tableRepository, IAuthRepository authRepository, IMapper mapper)
     {
         _patientRepository = patientRepository;
         _tableRepository = tableRepository;
         _authRepository = authRepository;
+        _mapper = mapper;
     }
 
     public async Task CreateAccountPatient(LoginDTO loginDetails)
@@ -40,63 +45,70 @@ public class PatientService : IPatientService
 
             await _tableRepository.SaveChanges();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-
+            throw;
         }
     }
 
     public async Task<ResetPasswordVM> ForgotPassword(string Email)
     {
-        AspNetUser oldAspNetUser = await _patientRepository.GetAspNetUserByEmail(Email);
-        ResetPasswordVM resetPassword = new ResetPasswordVM();
-
-        LoginUserStatus userStatus = await _authRepository.IsUserExists(Email);
-        if (userStatus == null)
+        try
         {
-            resetPassword.Email = Email;
-            resetPassword.isExist = false;
+            AspNetUser oldAspNetUser = await _patientRepository.GetAspNetUserByEmail(Email);
+            ResetPasswordVM resetPassword = new ResetPasswordVM();
+
+            LoginUserStatus userStatus = await _authRepository.IsUserExists(Email);
+            if (userStatus == null)
+            {
+                resetPassword.Email = Email;
+                resetPassword.isExist = false;
+                return resetPassword;
+            }
+            int id = 0;
+            switch (userStatus.Role)
+            {
+                case "1":
+                    Admin admin = await _patientRepository.GetAdminByEmail(Email);
+                    id = admin.AdminId;
+                    break;
+                case "2":
+                    Physician pysician = await _patientRepository.GetPhysicianByEmail(Email);
+                    id = pysician.PhysicianId;
+                    break;
+                default: break;
+            }
+            resetPassword.id = id;
+            resetPassword.RoleId = int.Parse(userStatus.Role);
+
+            //repo method to make entry in passwordReset Table
+            PasswordReset passwordReset = await _patientRepository.GetPasswordResetByEmail(Email);
+            string Token = Guid.NewGuid().ToString();
+            if (passwordReset == null)
+            {
+                PasswordReset newResetPassword = new()
+                {
+                    Token = Token,
+                    CreatedDate = DateTime.Now,
+                    Email = Email,
+                    IsUpdated = false
+                };
+                await _tableRepository.AddPasswordReset(newResetPassword);
+            }
+            else
+            {
+                passwordReset.Token = Token;
+                passwordReset.CreatedDate = DateTime.Now;
+            }
+            await _tableRepository.SaveChanges();
+            resetPassword.isValidated = true;
+            resetPassword.token = Token;
             return resetPassword;
         }
-        int id = 0;
-        switch (userStatus.Role)
+        catch (Exception)
         {
-            case "1":
-                Admin admin = await _patientRepository.GetAdminByEmail(Email);
-                id = admin.AdminId;
-                break;
-            case "2":
-                Physician pysician = await _patientRepository.GetPhysicianByEmail(Email);
-                id = pysician.PhysicianId;
-                break;
-            default: break;
+            throw;
         }
-        resetPassword.id = id;
-        resetPassword.RoleId = int.Parse(userStatus.Role);
-
-        //repo method to make entry in passwordReset Table
-        PasswordReset passwordReset = await _patientRepository.GetPasswordResetByEmail(Email);
-        string Token = Guid.NewGuid().ToString();
-        if (passwordReset == null)
-        {
-            PasswordReset newResetPassword = new()
-            {
-                Token = Token,
-                CreatedDate = DateTime.Now,
-                Email = Email,
-                IsUpdated = false
-            };
-            await _tableRepository.AddPasswordReset(newResetPassword);
-        }
-        else
-        {
-            passwordReset.Token = Token;
-            passwordReset.CreatedDate = DateTime.Now;
-        }
-        await _tableRepository.SaveChanges();
-        resetPassword.isValidated = true;
-        resetPassword.token = Token;
-        return resetPassword;
     }
 
     public async Task<resetPasswordGetDTO> GetResetPasswordData(string token)
@@ -120,33 +132,40 @@ public class PatientService : IPatientService
             resetPasswordGetDTO.Email = passwordReset.Email;
             return resetPasswordGetDTO;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return null;
+            throw;
         }
     }
 
     public async Task<string> ConfirmationNumber(PatientDetails requestData)
     {
-        string CNumber = "";
-        CNumber += requestData.City.Substring(0, 2);
+        try
+        {
+            string CNumber = "";
+            CNumber += requestData.City.Substring(0, 2);
 
-        string day = $"{requestData.Bdate.Day:00}";
-        string month = $"{requestData.Bdate.Month:00}";
-        // string year = $"{(requestData.Bdate.Year):0000}";
+            string day = $"{requestData.Bdate.Day:00}";
+            string month = $"{requestData.Bdate.Month:00}";
+            // string year = $"{(requestData.Bdate.Year):0000}";
 
-        CNumber += day;
-        CNumber += month;
-        // CNumber += year.ToString().Substring(2);
+            CNumber += day;
+            CNumber += month;
+            // CNumber += year.ToString().Substring(2);
 
-        CNumber += requestData.LastName.Substring(0, 2);
-        CNumber += requestData.FirstName.Substring(0, 2);
+            CNumber += requestData.LastName.Substring(0, 2);
+            CNumber += requestData.FirstName.Substring(0, 2);
 
-        int noOfRequests = await _patientRepository.GetNumbferOfRequestOnTheDay(DateTime.Now);
-        string NoRequest = $"{noOfRequests:0000}";
-        CNumber += NoRequest;
+            int noOfRequests = await _patientRepository.GetNumbferOfRequestOnTheDay(DateTime.Now);
+            string NoRequest = $"{noOfRequests:0000}";
+            CNumber += NoRequest;
 
-        return CNumber;
+            return CNumber;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 
     public async Task<int> CreateRequest(PatientDetails requestData)
@@ -155,35 +174,18 @@ public class PatientService : IPatientService
         {
             if (!requestData.isPatientExist)
             {
-                AspNetUser aspuser = new AspNetUser()
-                {
-                    UserName = requestData.FirstName + requestData.LastName,
-                    Email = requestData.Email,
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(requestData.PasswordHash),
-                    Phonenumber = requestData.Mobile,
-                    CreatedDate = DateTime.Now
-                };
+                AspNetUser aspuser = new AspNetUser();
+
+                _mapper.Map<AspNetUser>(requestData);
+                aspuser.PasswordHash = BCrypt.Net.BCrypt.HashPassword(requestData.PasswordHash);
 
                 await _tableRepository.AddAspNetUser(aspuser);
                 await _tableRepository.SaveChanges();
 
                 User newUser = new User();
+                newUser = _mapper.Map<User>(requestData);
+
                 newUser.AspNetUserId = aspuser.Id;
-                newUser.IsDeleted = false;
-                newUser.FirstName = requestData.FirstName;
-                newUser.LastName = requestData.LastName;
-                newUser.Email = requestData.Email;
-                newUser.Mobile = requestData.Mobile;
-                newUser.Street = requestData.Street;
-                newUser.City = requestData.City;
-                newUser.RegionId = requestData.regionId;
-                newUser.ZipCode = requestData.ZipCode.ToString();
-                newUser.CreatedDate = DateTime.Now;
-                newUser.CreatedBy = requestData.FirstName;
-                newUser.Status = 1;
-                newUser.StrMonth = requestData.Bdate.Month.ToString();
-                newUser.IntDate = requestData.Bdate.Day;
-                newUser.IntYear = requestData.Bdate.Year;
 
                 await _tableRepository.AddUserTable(newUser);
                 await _tableRepository.SaveChanges();
@@ -200,19 +202,11 @@ public class PatientService : IPatientService
 
             User oldUser = await _patientRepository.GetUserByEmail(requestData.Email);
 
-            Request newRequest = new Request()
-            {
-                RequestTypeId = 2,
-                UserId = oldUser?.UserId,
-                FirstName = requestData.FirstName,
-                LastName = requestData.LastName,
-                PhoneNumber = requestData.Mobile,
-                Email = requestData.Email,
-                Status = 1,
-                CreatedDate = DateTime.Now,
-                IsUrgentEmailSent = false,
-                IsDeleted = false
-            };
+            Request newRequest = new Request();
+
+            newRequest = _mapper.Map<Request>(requestData);
+            newRequest.UserId = oldUser?.UserId;
+
             newRequest.ConfirmationNumber = await ConfirmationNumber(requestData);
 
             await _tableRepository.AddRequest(newRequest);
@@ -220,24 +214,13 @@ public class PatientService : IPatientService
 
             string userState = await _patientRepository.GetStateName(requestData.regionId);
 
-            RequestClient newRequestClient = new RequestClient()
-            {
-                RequestId = newRequest.RequestId,
-                RegionId = requestData.regionId,
-                FirstName = requestData.FirstName,
-                LastName = requestData.LastName,
-                PhoneNumber = requestData.Mobile,
-                Email = requestData.Email,
-                Street = requestData.Street,
-                City = requestData.City,
-                State = userState,
-                ZipCode = requestData.ZipCode.ToString(),
-                Address = requestData.Street + ',' + requestData.City + ',' + userState + "," + requestData.ZipCode,
-                Notes = requestData.Symptoms,
-                StrMonth = requestData.Bdate.Month.ToString(),
-                IntDate = requestData.Bdate.Day,
-                IntYear = requestData.Bdate.Year
-            };
+            RequestClient newRequestClient = new RequestClient();
+
+            newRequestClient = _mapper.Map<RequestClient>(requestData);
+
+            newRequestClient.RequestId = newRequest.RequestId;
+            newRequestClient.State = userState;
+            newRequestClient.Address = requestData.Street + ',' + requestData.City + ',' + userState + "," + requestData.ZipCode;
 
             await _tableRepository.AddRequestClient(newRequestClient);
             await _tableRepository.SaveChanges();
@@ -270,9 +253,9 @@ public class PatientService : IPatientService
             }
             return newRequest.RequestId;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return 0;
+            throw;
         }
     }
 
@@ -286,35 +269,24 @@ public class PatientService : IPatientService
             //this is for the specific Role email. is email exist will be checked at frontend call wether it is admin or physician. if it is. inalid
             if (oldAspNetUser == null)
             {
+
                 AspNetUser newAspNetUser = new AspNetUser();
-                newAspNetUser.UserName = requestData.FirstName;
-                newAspNetUser.Email = requestData.Email;
-                newAspNetUser.Phonenumber = requestData.Mobile.ToString();
+                _mapper.Map<AspNetUser>(requestData);
 
                 await _tableRepository.AddAspNetUser(newAspNetUser);
                 await _tableRepository.SaveChanges();
 
                 User newUser = new User();
-                newUser.AspNetUserId = newAspNetUser.Id;
-                newUser.IsDeleted = false;
-                newUser.Email = requestData.Email;
-                newUser.FirstName = requestData.FirstName;
-                newUser.LastName = requestData.LastName;
-                newUser.CreatedBy = requestData.YFirstName;
-                newUser.CreatedBy = requestData.YFirstName;
-                newUser.CreatedDate = DateTime.Now;
-                newUser.Street = requestData.Street;
-                newUser.State = userState;
-                newUser.City = requestData.City;
-                newUser.ZipCode = requestData.ZipCode.ToString();
-                if (requestData.Bdate != null)
+                newUser = _mapper.Map<User>(requestData);
+
+                if (requestData?.Bdate != null)
                 {
                     newUser.StrMonth = requestData.Bdate.Month.ToString();
                     newUser.IntDate = requestData.Bdate.Day;
                     newUser.IntYear = requestData.Bdate.Year;
                 }
-                newUser.RegionId = requestData.regionId;
-                newUser.Mobile = requestData.Mobile.ToString();
+                newUser.State = userState;
+                newUser.AspNetUserId = newAspNetUser.Id;
 
                 await _tableRepository.AddUserTable(newUser);
                 await _tableRepository.SaveChanges();
@@ -345,37 +317,29 @@ public class PatientService : IPatientService
             {
                 RequestTypeId = requestData.RequestType,
                 UserId = oldUser.UserId,
-                FirstName = requestData.YFirstName,
-                LastName = requestData.YLastName,
-                PhoneNumber = requestData.YMobile.ToString(),
-                Email = requestData.YEmail,
+                FirstName = requestData?.YFirstName,
+                LastName = requestData?.YLastName,
+                PhoneNumber = requestData?.YMobile?.ToString(),
+                Email = requestData?.YEmail,
                 Status = 1,
                 CreatedDate = DateTime.Now,
                 IsUrgentEmailSent = false,
-                RelationName = requestData.RequestType == 2 ? requestData.RelationName : "Other",
-                IsDeleted = false
+                IsDeleted = false,
+                RelationName = requestData?.RequestType == 2 ? (requestData.RelationName ?? "None") : "Other",
             };
 
             await _tableRepository.AddRequest(newRequest);
             await _tableRepository.SaveChanges();
 
-            RequestClient newRequestClient = new RequestClient()
-            {
-                RequestId = newRequest.RequestId,
-                RegionId = requestData.regionId,
-                FirstName = requestData.FirstName,
-                LastName = requestData.LastName,
-                PhoneNumber = requestData.Mobile.ToString(),
-                Email = requestData.Email,
-                Street = requestData.Street,
-                City = requestData.City,
-                State = userState,
-                ZipCode = requestData.ZipCode.ToString(),
-                Address = requestData.Street + ',' + requestData.City + ',' + userState + "," + requestData.ZipCode,
-                Notes = requestData.Symptoms,
-            };
+            RequestClient newRequestClient = new RequestClient();
 
-            if (requestData.Bdate != null)
+            newRequestClient = _mapper.Map<RequestClient>(requestData);
+
+            newRequestClient.RequestId = newRequest.RequestId;
+            newRequestClient.State = userState;
+            newRequestClient.Address = requestData?.Street + ',' + requestData?.City + ',' + userState + "," + requestData?.ZipCode;
+
+            if (requestData?.Bdate != null)
             {
                 newRequestClient.StrMonth = requestData.Bdate.Month.ToString();
                 newRequestClient.IntDate = requestData.Bdate.Day;
@@ -385,7 +349,7 @@ public class PatientService : IPatientService
             await _tableRepository.AddRequestClient(newRequestClient);
             await _tableRepository.SaveChanges();
 
-            if (requestData.File != null && requestData.RequestType == 2)
+            if (requestData?.File != null && requestData.RequestType == 2)
             {
                 foreach (var file in requestData.File)
                 {
@@ -413,12 +377,13 @@ public class PatientService : IPatientService
             }
             return (newRequest.RequestId, isExists);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return (0, false);
+            throw;
         }
     }
 
+    //Pending
     public async Task<VerifyPatientRole> VerifyRoleIfPatient(string emailId)
     {
         VerifyPatientRole userStatus = await _patientRepository.VerifyRoleIfPatient(emailId);
@@ -440,7 +405,14 @@ public class PatientService : IPatientService
 
     public async Task<List<RegionsDropDown>> getAllRegionList()
     {
-        return await _tableRepository.getAllRegionList();
+        try
+        {
+            return await _tableRepository.getAllRegionList();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 
     public async Task<PatientProfile> GetPatientProfile(string Email)
@@ -448,19 +420,9 @@ public class PatientService : IPatientService
         try
         {
             User user = await _patientRepository.GetUserByEmail(Email);
-            PatientProfile patientDetails = new()
-            {
-                UserId = user.UserId,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                Mobile = user.Mobile,
-                Street = user.Street,
-                City = user.City,
-                State = user.State,
-                ZipCode = user.ZipCode,
-                regionId = (int)user.RegionId,
-            };
+
+            PatientProfile patientDetails = _mapper.Map<PatientProfile>(user);
+
             patientDetails.allRegion = await _tableRepository.GetRegionsDropDowns();
 
             if (user.StrMonth != null && user.IntDate != null && user.IntYear != null)
@@ -475,9 +437,9 @@ public class PatientService : IPatientService
             }
             return patientDetails;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return null;
+            throw;
         }
     }
 
@@ -498,7 +460,7 @@ public class PatientService : IPatientService
             user.RegionId = patientDetails.regionId;
             user.State = userState;
 
-            if (patientDetails.Bdate != null)
+            if (patientDetails?.Bdate != null)
             {
                 user.IntDate = int.Parse(patientDetails.Bdate.Day.ToString());
                 user.IntYear = int.Parse(patientDetails.Bdate.Year.ToString());
@@ -506,9 +468,9 @@ public class PatientService : IPatientService
             }
             await _tableRepository.SaveChanges();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-
+            throw;
         }
     }
 
@@ -519,9 +481,9 @@ public class PatientService : IPatientService
             User user = await _patientRepository.GetUserByEmail(userEmail);
             return await _patientRepository.GetDashboardContent(user.UserId);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return null;
+            throw;
         }
     }
 
@@ -531,9 +493,9 @@ public class PatientService : IPatientService
         {
             return await _patientRepository.GetSingleRequestDetails(requestId);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return null;
+            throw;
         }
     }
 
@@ -565,9 +527,9 @@ public class PatientService : IPatientService
             }
             await _tableRepository.SaveChanges();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-
+            throw;
         }
     }
 
@@ -577,9 +539,9 @@ public class PatientService : IPatientService
         {
             return await _patientRepository.DownloadRequestWiseFileDocuments(downloadRWF);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return null;
+            throw;
         }
     }
 
@@ -587,36 +549,11 @@ public class PatientService : IPatientService
     {
         try
         {
-             await _patientRepository.deleteDocument(requestWiseFileId);
+            await _patientRepository.deleteDocument(requestWiseFileId);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            
-        }
-    }
-    public async Task<PatientDetails> GetForMePatientRequestData(string email)
-    {
-        try
-        {
-            PatientDetails patientDetails = new PatientDetails();
-            PatientProfile oldPatientProfile = await GetPatientProfile(email);
-
-            patientDetails.FirstName = oldPatientProfile.FirstName;
-            patientDetails.LastName = oldPatientProfile.LastName;
-            patientDetails.Email = email;
-            patientDetails.Bdate = oldPatientProfile.Bdate;
-            patientDetails.Mobile = oldPatientProfile.Mobile;
-            patientDetails.Street = oldPatientProfile.Street;
-            patientDetails.City = oldPatientProfile.City;
-            patientDetails.State = oldPatientProfile.State;
-            patientDetails.ZipCode = decimal.Parse(oldPatientProfile.ZipCode);
-            patientDetails.regionId = oldPatientProfile.regionId;
-
-            return patientDetails;
-        }
-        catch (Exception ex)
-        {
-            return null;
+            throw;
         }
     }
 }

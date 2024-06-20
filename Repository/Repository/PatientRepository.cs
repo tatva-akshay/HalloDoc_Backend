@@ -84,7 +84,6 @@ public class PatientRepository : IPatientRepository
         return oldPasswordReset;
     }
 
-
     public async Task<PatientDashboard> GetDashboardContent(int userId)
     {
         Dictionary<int, string>

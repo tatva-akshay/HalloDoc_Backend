@@ -160,8 +160,9 @@ public class PatientController : ControllerBase
                 _response.Error = "User does not Exists!";
                 _response.IsSuccess = false;
                 return Ok(_response);
-            } 
-            else if(resetPasswordGetDTO!=null && !resetPasswordGetDTO.isValidated){
+            }
+            else if (resetPasswordGetDTO != null && !resetPasswordGetDTO.isValidated)
+            {
                 _response.HttpStatusCode = HttpStatusCode.BadRequest;
                 _response.Error = "Token time Expired!";
                 _response.IsSuccess = false;
@@ -180,7 +181,7 @@ public class PatientController : ControllerBase
             return Ok(_response);
         }
     }
-    
+
     //here by srs create account and reset password will be same by logic.
     //on successfull just redirect to login!
     [HttpPost("ResetPassword")]
@@ -348,7 +349,7 @@ public class PatientController : ControllerBase
 
     //Patient Dashboard
     [CustomAuthorize("3")]
-    [HttpGet("GetPatientProfile")]  
+    [HttpGet("GetPatientProfile")]
     public async Task<ActionResult<APIResponse>> GetPatientProfile(string email)
     {
         try
@@ -468,7 +469,7 @@ public class PatientController : ControllerBase
             _response.HttpStatusCode = HttpStatusCode.BadRequest;
             _response.IsSuccess = false;
             _response.Error = ex.ToString();
-            return BadRequest(_response);
+            return Ok(_response);
         }
     }
 
@@ -523,7 +524,7 @@ public class PatientController : ControllerBase
         {
             //login to download document it will be done after frontend
 
-           await _patientService.deleteDocument(requestWiseFileId);
+            await _patientService.deleteDocument(requestWiseFileId);
             _response.HttpStatusCode = HttpStatusCode.OK;
             _response.IsSuccess = true;
             _response.Result = "Deleted Successfully";
@@ -538,40 +539,9 @@ public class PatientController : ControllerBase
         }
     }
 
-    // it will take user email and will get data from userTable, 
-    // patient profile api is enough
-    [CustomAuthorize("3")]
-    [HttpGet("ForMeRequestGetData")]
-    public async Task<ActionResult<APIResponse>> ForMeRequestGetData(string userEmail)
-    {
-        try
-        {
-            //Email will must be there so no nullable checks!!!
-            PatientDetails oldPatientDetails = await _patientService.GetForMePatientRequestData(userEmail);
-            _response.HttpStatusCode = HttpStatusCode.OK;
-            _response.IsSuccess = true;
-            _response.Result = oldPatientDetails;
-            return Ok(_response);
-        }
-        catch (BadHttpRequestException ex)
-        {
-            _response.HttpStatusCode = HttpStatusCode.BadRequest;
-            _response.IsSuccess = false;
-            _response.Error = ex.ToString();
-            return BadRequest(_response);
-        }
-        catch (Exception ex)
-        {
-            _response.HttpStatusCode = HttpStatusCode.BadRequest;
-            _response.IsSuccess = false;
-            _response.Error = ex.ToString();
-            return BadRequest(_response);
-        }
-    }
-
     [CustomAuthorize("3")]
     [HttpPost("ForMeRequest")]
-    public async Task<ActionResult<APIResponse>> ForMeRequest([FromBody]PatientDetails requestData)
+    public async Task<ActionResult<APIResponse>> ForMeRequest([FromBody] PatientDetails requestData)
     {
         try
         {
@@ -626,7 +596,7 @@ public class PatientController : ControllerBase
     //there will be getAllregion controller will be called to get the region list #frontend
     [CustomAuthorize("3")]
     [HttpPost("ForSomeoneElseRequest")]
-    public async Task<ActionResult<APIResponse>> ForSomeOneElseRequest([FromBody]OtherRequest someOneElseRequestDetails)
+    public async Task<ActionResult<APIResponse>> ForSomeOneElseRequest([FromBody] OtherRequest someOneElseRequestDetails)
     {
         try
         {
@@ -647,11 +617,13 @@ public class PatientController : ControllerBase
                 _response.IsSuccess = true;
 
                 // GenericSendEmail(string ToEmail, string Body, string Subject, int RoleId, int id, int isPassReset, string Documents = "")
-                string createLink = ""; //here will be create account page Url
+                //here will be create account page Url
                 string Body = $"";
                 string Subject = "";
                 if (!isExists)
                 {
+                    ResetPasswordVM resetPassword = await _patientService.ForgotPassword(someOneElseRequestDetails.Email);
+                    string createLink = $"http://localhost:4200/patient/createpassword?token={resetPassword.token}";
                     Body = $"You can Create Your Account By .Your Request Has been Successfully Created! by {someOneElseRequestDetails.YFirstName} ";
                     Subject = "Create Account";
                     await _communicationService.GenericSendEmail(someOneElseRequestDetails.Email, Body, Subject, 3, 0, 1, "");

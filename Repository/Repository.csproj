@@ -3,6 +3,7 @@
     <ProjectReference Include="..\Entity\Entity.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="BCrypt.Net" Version="0.1.0" />
     <PackageReference Include="CloudinaryDotNet" Version="1.26.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
