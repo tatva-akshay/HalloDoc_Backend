@@ -233,7 +233,7 @@ public class PatientController : ControllerBase
     //patient request make the seperate validator for it. if user already a patient or not.
     [EnableCors("corsPolicy")]
     [HttpPost("PatientRequest")]
-    public async Task<ActionResult<APIResponse>> CreateRequestPatient([FromBody] PatientDetails requestData)
+    public async Task<ActionResult<APIResponse>> CreateRequestPatient([FromBody]PatientDetails requestData)
     {
         try
         {
@@ -453,7 +453,7 @@ public class PatientController : ControllerBase
 
     // [CustomAuthorize("3")]
     [HttpPost("UploadDocument")]
-    public async Task<ActionResult<APIResponse>> UploadDocument(UploadDocument documentData)
+    public async Task<ActionResult<APIResponse>> UploadDocument([FromForm] UploadDocument documentData)
     {
         try
         {
@@ -541,7 +541,7 @@ public class PatientController : ControllerBase
 
     [CustomAuthorize("3")]
     [HttpPost("ForMeRequest")]
-    public async Task<ActionResult<APIResponse>> ForMeRequest([FromBody] PatientDetails requestData)
+    public async Task<ActionResult<APIResponse>> ForMeRequest([FromForm] PatientDetails requestData)
     {
         try
         {
@@ -596,7 +596,7 @@ public class PatientController : ControllerBase
     //there will be getAllregion controller will be called to get the region list #frontend
     [CustomAuthorize("3")]
     [HttpPost("ForSomeoneElseRequest")]
-    public async Task<ActionResult<APIResponse>> ForSomeOneElseRequest([FromBody] OtherRequest someOneElseRequestDetails)
+    public async Task<ActionResult<APIResponse>> ForSomeOneElseRequest([FromForm] OtherRequest someOneElseRequestDetails)
     {
         try
         {

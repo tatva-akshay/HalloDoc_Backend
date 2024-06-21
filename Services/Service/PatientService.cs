@@ -506,7 +506,7 @@ public class PatientService : IPatientService
             foreach (var file in userUploadedDocuments.uploadedDocumentList)
             {
                 string path = Path.Combine(@"D:/Project/Angular/HalloDoc/Documents/Request" + userUploadedDocuments.RequestId);
-
+                int requestId = int.Parse(userUploadedDocuments.RequestId);
                 // Create folder if not exist
                 if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
@@ -514,7 +514,7 @@ public class PatientService : IPatientService
                 fileNameWithPath = fileNameWithPath.Replace("\\", "/");
                 RequestWiseFile newRequestWiseFile = new RequestWiseFile()
                 {
-                    RequestId = userUploadedDocuments.RequestId,
+                    RequestId = requestId,
                     FileName = fileNameWithPath,
                     CreatedDate = DateTime.Now,
                     IsDeleted = false

@@ -44,17 +44,14 @@ public class PatientDetails
     [Column(TypeName = "timestamp without time zone")]
     public DateTime CreatedDate { get; set; }   
 
-    [Column("street")]
     [StringLength(50)]
     [Required]
     public string Street { get; set; }
 
-    [Column("city")]
     [StringLength(100)]
     [Required]
     public string? City { get; set; }
 
-    [Column("state")]
     [StringLength(50)]
     public string? State { get; set; }
 
@@ -66,11 +63,9 @@ public class PatientDetails
     [Required]
     public decimal ZipCode { get; set; }
 
-    [Column("room")]
     [StringLength(20)]
     public string? Room { get; set; }
 
-    [Column("file")]
     public List<IFormFile>? File { get; set; }
 
 }
